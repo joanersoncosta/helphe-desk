@@ -1,6 +1,7 @@
 package com.wakanda.cliente.domain;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.data.annotation.Id;
@@ -8,6 +9,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
+import com.wakanda.cliente.application.api.request.ClienteNovoRequest;
 import com.wakanda.cliente.domain.enuns.Sexo;
 import com.wakanda.handler.APIException;
 
@@ -26,9 +28,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @Document(collection = "Cliente")
 public class Cliente {
-	
+
 	@Id
-	private Integer idPessoa;
+	private UUID idPessoa;
 	@NotBlank
 	private String nome;
 	@NotBlank
@@ -44,9 +46,18 @@ public class Cliente {
 	private LocalDateTime dataCadastro;
 	private LocalDateTime dataHoraDaUltimaAlteracao;
 
+	public Cliente(ClienteNovoRequest request) {
+		this.idPessoa = UUID.randomUUID();
+		this.nome = request.nome();
+		this.cpf = request.cpf();
+		this.email = request.email();
+		this.sexo = retornaSexoValido(request.sexo());
+		this.dataCadastro = LocalDateTime.now();
+	}
+
 	private Sexo retornaSexoValido(String sexo) {
 		return Sexo.validaSexo(sexo)
-	            .orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "Sexo inválido, digite novamente."));
+				.orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "Sexo inválido, digite novamente."));
 	}
-	
+
 }
