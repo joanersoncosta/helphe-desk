@@ -1,3 +1,10 @@
 server:
   servlet:
     context-path: /helphe/api
+    
+spring:    
+  data:
+    mongodb:
+      authentication-database: admin
+      uri: mongodb://localhost:27017/helphedeskDB
+      auto-index-creation: true
