@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import com.wakanda.cliente.application.api.request.ClienteNovoRequest;
 import com.wakanda.cliente.domain.enuns.Sexo;
 import com.wakanda.handler.APIException;
+import com.wakanda.tecnico.application.api.request.TecnicoNovoRequest;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -47,6 +48,14 @@ public class Tecnico {
 	private LocalDateTime dataCadastro;
 	private LocalDateTime dataHoraDaUltimaAlteracao;
 
+	public Tecnico(TecnicoNovoRequest request) {
+		this.idTecnico = UUID.randomUUID();
+		this.nome = request.nome();
+		this.cpf = request.cpf();
+		this.email = request.email();
+		this.sexo = retornaSexoValido(request.sexo());
+		this.dataCadastro = LocalDateTime.now();
+	}
 	private Sexo retornaSexoValido(String sexo) {
 		return Sexo.validaSexo(sexo)
 				.orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "Sexo inválido, digite novamente."));
