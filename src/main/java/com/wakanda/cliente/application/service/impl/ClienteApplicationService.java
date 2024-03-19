@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.wakanda.cliente.application.api.request.ClienteNovoRequest;
+import com.wakanda.cliente.application.api.request.EditaClienteRequest;
 import com.wakanda.cliente.application.api.response.ClienteDetalhadoResponse;
 import com.wakanda.cliente.application.api.response.ClienteIdResponse;
 import com.wakanda.cliente.application.api.response.ClienteListResponse;
@@ -43,7 +44,6 @@ public class ClienteApplicationService implements ClienteService {
 		cliente.pertenceAoCliente(emailCliente);
 		log.info("[finaliza] ClienteApplicationService - buscaClientePorId");
 		return ClienteDetalhadoResponse.converteClienteParaResponse(cliente);
-
 	}
 
 	@Override
@@ -54,5 +54,14 @@ public class ClienteApplicationService implements ClienteService {
 		return ClienteListResponse.converte(clientes);
 	}
 
+	@Override
+	public void editaDadosDoCliente(String email, EditaClienteRequest clienteRequest) {
+		log.info("[inicia] ClienteApplicationService - buscaTodosOsClientes");
+		Cliente cliente = clienteRepository.detalhaClientePorEmail(email);
+		log.info("[cliente] {}", cliente);
+		cliente. editaDadosDoCliente(clienteRequest);
+		clienteRepository.salva(cliente);
+		log.info("[finaliza] ClienteApplicationService - buscaTodosOsClientes");
+	}
 
 }

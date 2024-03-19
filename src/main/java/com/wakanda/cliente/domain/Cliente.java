@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
 import com.wakanda.cliente.application.api.request.ClienteNovoRequest;
+import com.wakanda.cliente.application.api.request.EditaClienteRequest;
 import com.wakanda.cliente.domain.enuns.Sexo;
 import com.wakanda.handler.APIException;
 
@@ -65,6 +66,12 @@ public class Cliente {
 		if (!idCliente.equals(emailCliente.getIdCliente())) {
 			throw APIException.build(HttpStatus.UNAUTHORIZED, "Cliente não autorizado.");
 		}
+	}
+
+	public void editaDadosDoCliente(EditaClienteRequest request) {
+		this.nome = request.nome();
+		this.sexo = retornaSexoValido(request.sexo());
+		this.dataHoraDaUltimaAlteracao = LocalDateTime.now();
 	}
 
 }

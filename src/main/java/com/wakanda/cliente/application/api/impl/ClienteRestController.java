@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wakanda.cliente.application.api.ClienteAPI;
 import com.wakanda.cliente.application.api.request.ClienteNovoRequest;
+import com.wakanda.cliente.application.api.request.EditaClienteRequest;
 import com.wakanda.cliente.application.api.response.ClienteDetalhadoResponse;
 import com.wakanda.cliente.application.api.response.ClienteIdResponse;
 import com.wakanda.cliente.application.api.response.ClienteListResponse;
@@ -43,6 +44,13 @@ public class ClienteRestController implements ClienteAPI {
 		List<ClienteListResponse> clientes = clienteService.buscaTodosOsClientes();		
 		log.info("[finaliza] ClienteRestController - buscaTodosOsClientes");		
 		return clientes;
+	}
+
+	@Override
+	public void editaDadosDoCliente(String email, EditaClienteRequest clienteRequest) {
+		log.info("[inicia] ClienteRestController - editaDadosDoCliente");
+		clienteService.editaDadosDoCliente(email, clienteRequest);		
+		log.info("[finaliza] ClienteRestController - editaDadosDoCliente");		
 	}
 
 }
