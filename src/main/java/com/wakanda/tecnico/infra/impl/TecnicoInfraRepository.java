@@ -50,4 +50,13 @@ public class TecnicoInfraRepository implements TecnicoRepository {
 		return tecnicos;
 	}
 
+	@Override
+	public Tecnico buscaTecnicoPorEmail(String email) {
+		log.info("[start] TecnicoInfraRepository - buscaTecnicoPorEmail");
+		Tecnico tecnico = tecnicoSpringDBMongoRepository.findByEmail(email)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Técnico não encontrado para este Email."));
+		log.info("[finish] TecnicoInfraRepository - buscaTecnicoPorEmail");
+		return tecnico;
+	}
+
 }

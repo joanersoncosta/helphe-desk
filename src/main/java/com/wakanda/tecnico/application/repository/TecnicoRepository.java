@@ -14,4 +14,6 @@ public interface TecnicoRepository {
 
 	List<Tecnico> buscaTecnicos();
 
+	Tecnico buscaTecnicoPorEmail(String email);
+
 }

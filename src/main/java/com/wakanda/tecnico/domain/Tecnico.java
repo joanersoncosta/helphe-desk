@@ -8,9 +8,9 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
-import com.wakanda.cliente.application.api.request.ClienteNovoRequest;
 import com.wakanda.cliente.domain.enuns.Sexo;
 import com.wakanda.handler.APIException;
+import com.wakanda.tecnico.application.api.request.EditaTecnicoRequest;
 import com.wakanda.tecnico.application.api.request.TecnicoNovoRequest;
 
 import jakarta.validation.constraints.Email;
@@ -56,9 +56,16 @@ public class Tecnico {
 		this.sexo = retornaSexoValido(request.sexo());
 		this.dataCadastro = LocalDateTime.now();
 	}
+	
 	private Sexo retornaSexoValido(String sexo) {
 		return Sexo.validaSexo(sexo)
 				.orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "Sexo inválido, digite novamente."));
+	}
+	
+	public void edita(EditaTecnicoRequest request) {
+		this.nome = request.nome();
+		this.sexo = retornaSexoValido(request.sexo());
+		this.dataHoraDaUltimaAlteracao = LocalDateTime.now();
 	}
 
 }

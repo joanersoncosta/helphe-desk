@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.wakanda.handler.APIException;
+import com.wakanda.tecnico.application.api.request.EditaTecnicoRequest;
 import com.wakanda.tecnico.application.api.request.TecnicoNovoRequest;
 import com.wakanda.tecnico.application.api.response.TecnicoDetalhadoResponse;
 import com.wakanda.tecnico.application.api.response.TecnicoIdResponse;
@@ -37,7 +38,7 @@ public class TecnicoApplicationService implements TecnicoService {
 		log.info("[idTecnico] {}", idTecnico);
 		TecnicoDetalhadoResponse tecnico = tecnicoRepository.buscaTecnicoPorId(idTecnico)
 				.map(TecnicoDetalhadoResponse::converte)
-				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Técnico não encontrado!"));
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Técnico não encontrado."));
 		log.info("[finaliza] TecnicoApplicationService - buscaTecnicoPorId");
 		return tecnico;
 	}
@@ -48,6 +49,16 @@ public class TecnicoApplicationService implements TecnicoService {
 		List<Tecnico> tecnicos = tecnicoRepository.buscaTecnicos();
 		log.info("[finaliza] TecnicoApplicationService - buscaTecnicos");
 		return TecnicoDetalhadoResponse.converte(tecnicos);
+	}
+
+	@Override
+	public void editaDadosDoTecnico(String email, EditaTecnicoRequest tecnicoRequest) {
+		log.info("[inicia] TecnicoApplicationService - editaDadosDoTecnico");
+		Tecnico tecnico = tecnicoRepository.buscaTecnicoPorEmail(email);
+		log.info("[tecnico] {}", tecnico);
+		tecnico.edita(tecnicoRequest);
+		tecnicoRepository.salva(tecnico);
+		log.info("[finaliza] TecnicoApplicationService - editaDadosDoTecnico");
 	}
 
 }

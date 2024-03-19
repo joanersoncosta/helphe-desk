@@ -3,6 +3,7 @@ package com.wakanda.tecnico.application.service;
 import java.util.List;
 import java.util.UUID;
 
+import com.wakanda.tecnico.application.api.request.EditaTecnicoRequest;
 import com.wakanda.tecnico.application.api.request.TecnicoNovoRequest;
 import com.wakanda.tecnico.application.api.response.TecnicoDetalhadoResponse;
 import com.wakanda.tecnico.application.api.response.TecnicoIdResponse;
@@ -14,5 +15,7 @@ public interface TecnicoService {
 	TecnicoDetalhadoResponse buscaTecnicoPorId(UUID idTecnico);
 
 	List<TecnicoDetalhadoResponse> buscaTecnicos();
+
+	void editaDadosDoTecnico(String email, EditaTecnicoRequest tecnicoRequest);
 
 }
