@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
+import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.domain.enuns.Prioridade;
 import com.wakanda.chamado.domain.enuns.StatusChamado;
 import com.wakanda.handler.APIException;
@@ -33,11 +34,9 @@ public class Chamado {
 	@NotNull
 	private UUID idTecnico;
 	@Indexed
-	@NotBlank
 	private UUID idCliente;
 	@NotBlank
 	private Prioridade prioridade;
-	@NotNull
 	private StatusChamado status;
 	@NotBlank
 	private String titulo;
@@ -46,14 +45,25 @@ public class Chamado {
 	private LocalDate dataAbertura;
 	private LocalDate dataFechamento;
 
+	public Chamado(UUID idCliente, ChamadoRequest chamadoRequest) {
+		this.idChamado = UUID.randomUUID();
+		this.idTecnico = chamadoRequest.idTecnico();
+		this.idCliente = idCliente;
+		this.prioridade = retornaPrioridade(chamadoRequest.prioridade());
+		this.status = StatusChamado.ABERTO;
+		this.titulo = chamadoRequest.titulo();
+		this.observacoes = chamadoRequest.observacoes();
+		this.dataAbertura = LocalDate.now();
+	}
+
 	private Prioridade retornaPrioridade(String prioridade) {
 		return Prioridade.validaPrioridade(prioridade).orElseThrow(
 				() -> APIException.build(HttpStatus.BAD_REQUEST, "Prioridade inválida, digite novamente."));
 	}
-	
+
 	private StatusChamado retornaStatusChamado(String status) {
-		return StatusChamado.validaStatus(status).orElseThrow(
-				() -> APIException.build(HttpStatus.BAD_REQUEST, "Status inválido, digite novamente."));
+		return StatusChamado.validaStatus(status)
+				.orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "Status inválido, digite novamente."));
 	}
-	
+
 }

@@ -28,7 +28,7 @@ public interface TecnicoAPI {
 
 	@PostMapping(path = "/admin/cadastro")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	TecnicoIdResponse cadastraNovoTecnico(@RequestParam(name = "token", required = true) String token,
+	TecnicoIdResponse cadastraNovoTecnico(@RequestParam(name = "email", required = true) String email,
 			@RequestBody @Valid TecnicoNovoRequest tecnicoRequest);
 
 	@GetMapping(value = "/{idTecnico}/busca")

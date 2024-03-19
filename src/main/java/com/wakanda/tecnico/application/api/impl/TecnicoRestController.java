@@ -22,7 +22,7 @@ public class TecnicoRestController implements TecnicoAPI {
 	private final TecnicoService tecnicoService;
 
 	@Override
-	public TecnicoIdResponse cadastraNovoTecnico(String token, TecnicoNovoRequest tecnicoRequest) {
+	public TecnicoIdResponse cadastraNovoTecnico(String emil, TecnicoNovoRequest tecnicoRequest) {
 		log.info("[inicia] TecnicoRestController - cadastraNovoTecnico");
 		TecnicoIdResponse idTecnico = tecnicoService.cadastraNovoTecnico(tecnicoRequest);
 		log.info("[finaliza] TecnicoRestController - cadastraNovoTecnico");
