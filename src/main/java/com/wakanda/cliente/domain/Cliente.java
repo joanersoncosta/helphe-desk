@@ -3,7 +3,6 @@ package com.wakanda.cliente.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -31,7 +30,7 @@ import lombok.NoArgsConstructor;
 public class Cliente {
 
 	@Id
-	private UUID idPessoa;
+	private UUID idCliente;
 	@NotBlank
 	private String nome;
 	@NotBlank
@@ -49,7 +48,7 @@ public class Cliente {
 	private LocalDateTime dataHoraDaUltimaAlteracao;
 
 	public Cliente(ClienteNovoRequest request) {
-		this.idPessoa = UUID.randomUUID();
+		this.idCliente = UUID.randomUUID();
 		this.nome = request.nome();
 		this.cpf = request.cpf();
 		this.email = request.email();
@@ -60,6 +59,12 @@ public class Cliente {
 	private Sexo retornaSexoValido(String sexo) {
 		return Sexo.validaSexo(sexo)
 				.orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "Sexo inválido, digite novamente."));
+	}
+
+	public void pertenceAoCliente(Cliente emailCliente) {
+		if (!idCliente.equals(emailCliente.getIdCliente())) {
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Cliente não autorizado.");
+		}
 	}
 
 }

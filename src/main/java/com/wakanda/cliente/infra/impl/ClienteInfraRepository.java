@@ -1,5 +1,8 @@
 package com.wakanda.cliente.infra.impl;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -27,6 +30,23 @@ public class ClienteInfraRepository implements ClienteRepository {
 			throw APIException.build(HttpStatus.BAD_REQUEST, "Cliente já cadastrado.");
 		}
 		log.info("[finish] ClienteInfraRepository - salva");
+		return cliente;
+	}
+
+	@Override
+	public Cliente detalhaClientePorEmail(String email) {
+		log.info("[start] ClienteInfraRepository - detalhaClientePorEmail");
+		Cliente cliente = clienteSpringDBMongoRepository.findByEmail(email).orElseThrow(() -> 
+			APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado para esse email."));
+		log.info("[inicia] ClienteInfraRepository - detalhaClientePorEmail");
+		return cliente;
+	}
+
+	@Override
+	public Optional<Cliente> detalhaClientePorId(UUID idCliente) {
+		log.info("[start] ClienteInfraRepository - detalhaClientePorId");
+		Optional<Cliente> cliente = clienteSpringDBMongoRepository.findById(idCliente);
+		log.info("[finish] ClienteInfraRepository - detalhaClientePorId");
 		return cliente;
 	}
 
