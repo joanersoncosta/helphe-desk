@@ -1,5 +1,8 @@
 package com.wakanda.tecnico.infra.impl;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -26,6 +29,14 @@ public class TecnicoInfraRepository implements TecnicoRepository {
 		}catch (DataIntegrityViolationException ex) {
 			throw APIException.build(HttpStatus.BAD_REQUEST, "Tecnico já cadastrado.");
 		}
+		log.info("[finish] TecnicoInfraRepository - salva");
+		return tecnico;
+	}
+
+	@Override
+	public Optional<Tecnico> buscaTecnicoPorId(UUID idTecnico) {
+		log.info("[start] TecnicoInfraRepository - salva");
+		Optional<Tecnico> tecnico = tecnicoSpringDBMongoRepository.findById(idTecnico);
 		log.info("[finish] TecnicoInfraRepository - salva");
 		return tecnico;
 	}
