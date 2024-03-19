@@ -64,4 +64,13 @@ public class ClienteApplicationService implements ClienteService {
 		log.info("[finaliza] ClienteApplicationService - buscaTodosOsClientes");
 	}
 
+	@Override
+	public void deletaCliente(String email) {
+		log.info("[inicia] ClienteApplicationService - buscaTodosOsClientes");
+		Cliente cliente = clienteRepository.detalhaClientePorEmail(email);
+		log.info("[cliente] {}", cliente);
+		clienteRepository.deletaCliente(cliente);
+		log.info("[finaliza] ClienteApplicationService - buscaTodosOsClientes");
+	}
+
 }

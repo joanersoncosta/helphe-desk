@@ -59,4 +59,11 @@ public class ClienteInfraRepository implements ClienteRepository {
 		return clientes;
 	}
 
+	@Override
+	public void deletaCliente(Cliente cliente) {
+		log.info("[start] ClienteInfraRepository - buscaClientes");
+		clienteSpringDBMongoRepository.delete(cliente);
+		log.info("[inicia] ClienteInfraRepository - buscaClientes");
+	}
+
 }

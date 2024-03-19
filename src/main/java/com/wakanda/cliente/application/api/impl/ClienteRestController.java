@@ -53,4 +53,11 @@ public class ClienteRestController implements ClienteAPI {
 		log.info("[finaliza] ClienteRestController - editaDadosDoCliente");		
 	}
 
+	@Override
+	public void deletaCliente(String email) {
+		log.info("[inicia] ClienteRestController - deletaCliente");
+		clienteService.deletaCliente(email);		
+		log.info("[finaliza] ClienteRestController - deletaCliente");		
+	}
+
 }

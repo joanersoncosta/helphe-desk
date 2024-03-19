@@ -19,4 +19,6 @@ public interface ClienteService {
 
 	void editaDadosDoCliente(String email, EditaClienteRequest clienteRequest);
 
+	void deletaCliente(String email);
+
 }
