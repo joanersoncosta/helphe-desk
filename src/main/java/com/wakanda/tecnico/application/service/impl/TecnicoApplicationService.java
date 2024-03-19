@@ -52,12 +52,23 @@ public class TecnicoApplicationService implements TecnicoService {
 	}
 
 	@Override
-	public void editaDadosDoTecnico(String email, EditaTecnicoRequest tecnicoRequest) {
+	public void editaDadosDoTecnico(UUID idTecnico, EditaTecnicoRequest tecnicoRequest) {
 		log.info("[inicia] TecnicoApplicationService - editaDadosDoTecnico");
-		Tecnico tecnico = tecnicoRepository.buscaTecnicoPorEmail(email);
-		log.info("[tecnico] {}", tecnico);
+		log.info("[idTecnico] {}", idTecnico);
+		Tecnico tecnico = tecnicoRepository.buscaTecnicoPorId(idTecnico)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Técnico não encontrado."));
 		tecnico.edita(tecnicoRequest);
 		tecnicoRepository.salva(tecnico);
+		log.info("[finaliza] TecnicoApplicationService - editaDadosDoTecnico");
+	}
+
+	@Override
+	public void deletaTecnico(UUID idTecnico) {
+		log.info("[inicia] TecnicoApplicationService - editaDadosDoTecnico");
+		log.info("[idTecnico] {}", idTecnico);
+		Tecnico tecnico = tecnicoRepository.buscaTecnicoPorId(idTecnico)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Técnico não encontrado."));
+		tecnicoRepository.deletaTecnico(tecnico);
 		log.info("[finaliza] TecnicoApplicationService - editaDadosDoTecnico");
 	}
 

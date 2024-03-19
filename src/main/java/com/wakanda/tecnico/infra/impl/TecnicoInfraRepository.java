@@ -59,4 +59,11 @@ public class TecnicoInfraRepository implements TecnicoRepository {
 		return tecnico;
 	}
 
+	@Override
+	public void deletaTecnico(Tecnico tecnico) {
+		log.info("[start] TecnicoInfraRepository - deletaTecnico");
+		tecnicoSpringDBMongoRepository.delete(tecnico);
+		log.info("[finish] TecnicoInfraRepository - deletaTecnico");
+	}
+
 }

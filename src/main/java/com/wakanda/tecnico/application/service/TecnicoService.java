@@ -16,6 +16,8 @@ public interface TecnicoService {
 
 	List<TecnicoDetalhadoResponse> buscaTecnicos();
 
-	void editaDadosDoTecnico(String email, EditaTecnicoRequest tecnicoRequest);
+	void editaDadosDoTecnico(UUID idTecnico, EditaTecnicoRequest tecnicoRequest);
+
+	void deletaTecnico(UUID idTecnico);
 
 }

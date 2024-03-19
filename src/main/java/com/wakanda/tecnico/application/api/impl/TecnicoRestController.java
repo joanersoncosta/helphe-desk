@@ -46,10 +46,17 @@ public class TecnicoRestController implements TecnicoAPI {
 	}
 
 	@Override
-	public void editaDadosDoTecnico(String email, EditaTecnicoRequest tecnicoRequest) {
+	public void editaDadosDoTecnico(String email, UUID idTecnico, EditaTecnicoRequest tecnicoRequest) {
 		log.info("[inicia] TecnicoRestController - editaDadosDoTecnico");
-		tecnicoService.editaDadosDoTecnico(email, tecnicoRequest);
+		tecnicoService.editaDadosDoTecnico(idTecnico, tecnicoRequest);
 		log.info("[finaliza] TecnicoRestController - editaDadosDoTecnico");
+	}
+
+	@Override
+	public void deletaTecnico(String email, UUID idTecnico) {
+		log.info("[inicia] TecnicoRestController - deletaTecnico");
+		tecnicoService.deletaTecnico(idTecnico);
+		log.info("[finaliza] TecnicoRestController - deletaTecnico");
 	}
 
 }

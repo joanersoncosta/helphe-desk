@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,18 +28,26 @@ public interface TecnicoAPI {
 
 	@PostMapping(path = "/admin/cadastro")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	TecnicoIdResponse cadastraNovoTecnico(@RequestParam(name = "token", required = true) String token, @RequestBody @Valid TecnicoNovoRequest tecnicoRequest);
+	TecnicoIdResponse cadastraNovoTecnico(@RequestParam(name = "token", required = true) String token,
+			@RequestBody @Valid TecnicoNovoRequest tecnicoRequest);
 
 	@GetMapping(value = "/{idTecnico}/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	TecnicoDetalhadoResponse buscaTecnicoPorId(@RequestParam(name = "email", required = true) String email, @PathVariable(value = "idTecnico") UUID idTecnico);
+	TecnicoDetalhadoResponse buscaTecnicoPorId(@RequestParam(name = "email", required = true) String email,
+			@PathVariable(value = "idTecnico") UUID idTecnico);
 
 	@GetMapping(value = "/busca")
 	@ResponseStatus(value = HttpStatus.OK)
 	List<TecnicoDetalhadoResponse> buscaTecnicos(@RequestParam(name = "email", required = true) String email);
 
-	@PatchMapping(path = "/edita")
+	@PatchMapping(path = "/restrito/{idTecnico}/edita")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	void editaDadosDoTecnico(@RequestParam(name = "email", required = true) String email, @RequestBody @Valid EditaTecnicoRequest tecnicoRequest);
+	void editaDadosDoTecnico(@RequestParam(name = "email", required = true) String email,
+			@PathVariable(value = "idTecnico") UUID idTecnico, @RequestBody @Valid EditaTecnicoRequest tecnicoRequest);
+
+	@DeleteMapping(path = "/restrito/{idTecnico}/deleta")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	void deletaTecnico(@RequestParam(name = "email", required = true) String email,
+			@PathVariable(value = "idTecnico") UUID idTecnico);
 
 }

@@ -16,4 +16,6 @@ public interface TecnicoRepository {
 
 	Tecnico buscaTecnicoPorEmail(String email);
 
+	void deletaTecnico(Tecnico tecnico);
+
 }
