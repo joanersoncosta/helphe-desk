@@ -1,5 +1,6 @@
 package com.wakanda.tecnico.application.api.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,14 @@ public class TecnicoRestController implements TecnicoAPI {
 		TecnicoDetalhadoResponse tecnico = tecnicoService.buscaTecnicoPorId(idTecnico);
 		log.info("[finaliza] TecnicoRestController - buscaTecnicoPorId");
 		return tecnico;
+	}
+
+	@Override
+	public List<TecnicoDetalhadoResponse> buscaTecnicos(String email) {
+		log.info("[inicia] TecnicoRestController - buscaTecnicos");
+		List<TecnicoDetalhadoResponse> tecnicos = tecnicoService.buscaTecnicos();
+		log.info("[finaliza] TecnicoRestController - buscaTecnicos");
+		return tecnicos;
 	}
 
 }

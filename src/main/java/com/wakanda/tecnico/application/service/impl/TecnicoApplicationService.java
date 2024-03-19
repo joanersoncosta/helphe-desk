@@ -1,5 +1,6 @@
 package com.wakanda.tecnico.application.service.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -35,10 +36,18 @@ public class TecnicoApplicationService implements TecnicoService {
 		log.info("[inicia] TecnicoApplicationService - buscaTecnicoPorId");
 		log.info("[idTecnico] {}", idTecnico);
 		TecnicoDetalhadoResponse tecnico = tecnicoRepository.buscaTecnicoPorId(idTecnico)
-				.map(TecnicoDetalhadoResponse::converteClienteParaResponse)
+				.map(TecnicoDetalhadoResponse::converte)
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Técnico não encontrado!"));
 		log.info("[finaliza] TecnicoApplicationService - buscaTecnicoPorId");
 		return tecnico;
+	}
+
+	@Override
+	public List<TecnicoDetalhadoResponse> buscaTecnicos() {
+		log.info("[inicia] TecnicoApplicationService - buscaTecnicos");
+		List<Tecnico> tecnicos = tecnicoRepository.buscaTecnicos();
+		log.info("[finaliza] TecnicoApplicationService - buscaTecnicos");
+		return TecnicoDetalhadoResponse.converte(tecnicos);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.wakanda.tecnico.application.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.wakanda.tecnico.application.api.request.TecnicoNovoRequest;
@@ -11,5 +12,7 @@ public interface TecnicoService {
 	TecnicoIdResponse cadastraNovoTecnico(TecnicoNovoRequest tecnicoRequest);
 
 	TecnicoDetalhadoResponse buscaTecnicoPorId(UUID idTecnico);
+
+	List<TecnicoDetalhadoResponse> buscaTecnicos();
 
 }

@@ -1,6 +1,8 @@
 package com.wakanda.tecnico.application.api.response;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.wakanda.cliente.domain.enuns.Sexo;
 import com.wakanda.tecnico.domain.Tecnico;
@@ -15,19 +17,25 @@ import lombok.NoArgsConstructor;
 @Getter
 public class TecnicoDetalhadoResponse {
 
-	private UUID idCliente;
+	private UUID idTecnico;
 	private String nome;
 	private String email;
 	private Sexo sexo;
 
 	private TecnicoDetalhadoResponse(Tecnico tecnico) {
-		this.idCliente = tecnico.getIdTecnico();
+		this.idTecnico = tecnico.getIdTecnico();
 		this.nome = tecnico.getNome();
 		this.email = tecnico.getEmail();
 		this.sexo = tecnico.getSexo();
 	}
 
-	public static TecnicoDetalhadoResponse converteClienteParaResponse(Tecnico tecnico) {
+	public static TecnicoDetalhadoResponse converte(Tecnico tecnico) {
 		return new TecnicoDetalhadoResponse(tecnico);
+	}
+	
+	public static List<TecnicoDetalhadoResponse> converte(List<Tecnico> tecnicos) {
+		return tecnicos.stream()
+				.map(TecnicoDetalhadoResponse::new)
+				.collect(Collectors.toList());
 	}
 }

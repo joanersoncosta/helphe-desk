@@ -1,5 +1,6 @@
 package com.wakanda.tecnico.application.api;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -29,5 +30,9 @@ public interface TecnicoAPI {
 	@GetMapping(value = "/{idTecnico}/busca")
 	@ResponseStatus(value = HttpStatus.OK)
 	TecnicoDetalhadoResponse buscaTecnicoPorId(@RequestParam(name = "email", required = true) String email, @PathVariable(value = "idTecnico") UUID idTecnico);
+
+	@GetMapping(value = "/busca")
+	@ResponseStatus(value = HttpStatus.OK)
+	List<TecnicoDetalhadoResponse> buscaTecnicos(@RequestParam(name = "email", required = true) String email);
 
 }

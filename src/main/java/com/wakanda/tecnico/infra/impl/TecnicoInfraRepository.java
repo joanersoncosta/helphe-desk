@@ -1,5 +1,6 @@
 package com.wakanda.tecnico.infra.impl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,10 +36,18 @@ public class TecnicoInfraRepository implements TecnicoRepository {
 
 	@Override
 	public Optional<Tecnico> buscaTecnicoPorId(UUID idTecnico) {
-		log.info("[start] TecnicoInfraRepository - salva");
+		log.info("[start] TecnicoInfraRepository - buscaTecnicoPorId");
 		Optional<Tecnico> tecnico = tecnicoSpringDBMongoRepository.findById(idTecnico);
-		log.info("[finish] TecnicoInfraRepository - salva");
+		log.info("[finish] TecnicoInfraRepository - buscaTecnicoPorId");
 		return tecnico;
+	}
+
+	@Override
+	public List<Tecnico> buscaTecnicos() {
+		log.info("[start] TecnicoInfraRepository - buscaTecnicos");
+		List<Tecnico> tecnicos = tecnicoSpringDBMongoRepository.findAll();
+		log.info("[finish] TecnicoInfraRepository - buscaTecnicos");
+		return tecnicos;
 	}
 
 }
