@@ -12,6 +12,8 @@ import com.wakanda.chamado.domain.enuns.Prioridade;
 import com.wakanda.chamado.domain.enuns.StatusChamado;
 import com.wakanda.handler.APIException;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,12 +30,18 @@ public class Chamado {
 	@Id
 	private UUID idChamado;
 	@Indexed
+	@NotNull
 	private UUID idTecnico;
 	@Indexed
+	@NotBlank
 	private UUID idCliente;
+	@NotBlank
 	private Prioridade prioridade;
+	@NotNull
 	private StatusChamado status;
+	@NotBlank
 	private String titulo;
+	@NotBlank
 	private String observacoes;
 	private LocalDate dataAbertura;
 	private LocalDate dataFechamento;
