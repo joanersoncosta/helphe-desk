@@ -1,5 +1,6 @@
 package com.wakanda.cliente.application.api;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wakanda.cliente.application.api.request.ClienteNovoRequest;
 import com.wakanda.cliente.application.api.response.ClienteDetalhadoResponse;
 import com.wakanda.cliente.application.api.response.ClienteIdResponse;
+import com.wakanda.cliente.application.api.response.ClienteListResponse;
 
 import jakarta.validation.Valid;
 
@@ -28,6 +30,10 @@ public interface ClienteAPI {
 
 	@GetMapping(value = "/{idCliente}/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	ClienteDetalhadoResponse buscaClientePorId(@RequestParam(name = "email", required = true) String token, @PathVariable(value = "idCliente") UUID idCliente);
+	ClienteDetalhadoResponse buscaClientePorId(@RequestParam(name = "email", required = true) String email, @PathVariable(value = "idCliente") UUID idCliente);
+
+	@GetMapping(value = "/restrito/busca-clientes")
+	@ResponseStatus(value = HttpStatus.OK)
+	List<ClienteListResponse> buscaTodosOsClientes(@RequestParam(name = "email", required = true) String email);
 
 }

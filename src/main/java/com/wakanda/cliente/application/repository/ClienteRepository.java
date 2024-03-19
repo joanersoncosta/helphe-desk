@@ -1,5 +1,6 @@
 package com.wakanda.cliente.application.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,5 +13,7 @@ public interface ClienteRepository {
 	Cliente detalhaClientePorEmail(String email);
 
 	Optional<Cliente> detalhaClientePorId(UUID idCliente);
+
+	List<Cliente> buscaClientes();
 
 }

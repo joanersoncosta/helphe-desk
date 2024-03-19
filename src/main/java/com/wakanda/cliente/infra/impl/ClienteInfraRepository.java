@@ -1,5 +1,6 @@
 package com.wakanda.cliente.infra.impl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public class ClienteInfraRepository implements ClienteRepository {
 		log.info("[start] ClienteInfraRepository - salva");
 		try {
 			clienteSpringDBMongoRepository.save(cliente);
-		}catch (DataIntegrityViolationException ex) {
+		} catch (DataIntegrityViolationException ex) {
 			throw APIException.build(HttpStatus.BAD_REQUEST, "Cliente já cadastrado.");
 		}
 		log.info("[finish] ClienteInfraRepository - salva");
@@ -36,8 +37,8 @@ public class ClienteInfraRepository implements ClienteRepository {
 	@Override
 	public Cliente detalhaClientePorEmail(String email) {
 		log.info("[start] ClienteInfraRepository - detalhaClientePorEmail");
-		Cliente cliente = clienteSpringDBMongoRepository.findByEmail(email).orElseThrow(() -> 
-			APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado para esse email."));
+		Cliente cliente = clienteSpringDBMongoRepository.findByEmail(email)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado para esse email."));
 		log.info("[inicia] ClienteInfraRepository - detalhaClientePorEmail");
 		return cliente;
 	}
@@ -48,6 +49,14 @@ public class ClienteInfraRepository implements ClienteRepository {
 		Optional<Cliente> cliente = clienteSpringDBMongoRepository.findById(idCliente);
 		log.info("[finish] ClienteInfraRepository - detalhaClientePorId");
 		return cliente;
+	}
+
+	@Override
+	public List<Cliente> buscaClientes() {
+		log.info("[start] ClienteInfraRepository - buscaClientes");
+		List<Cliente> clientes = clienteSpringDBMongoRepository.findAll();
+		log.info("[inicia] ClienteInfraRepository - buscaClientes");
+		return clientes;
 	}
 
 }

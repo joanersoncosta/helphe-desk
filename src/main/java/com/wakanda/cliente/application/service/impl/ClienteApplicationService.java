@@ -1,5 +1,6 @@
 package com.wakanda.cliente.application.service.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.wakanda.cliente.application.api.request.ClienteNovoRequest;
 import com.wakanda.cliente.application.api.response.ClienteDetalhadoResponse;
 import com.wakanda.cliente.application.api.response.ClienteIdResponse;
+import com.wakanda.cliente.application.api.response.ClienteListResponse;
 import com.wakanda.cliente.application.repository.ClienteRepository;
 import com.wakanda.cliente.application.service.ClienteService;
 import com.wakanda.cliente.domain.Cliente;
@@ -43,5 +45,14 @@ public class ClienteApplicationService implements ClienteService {
 		return ClienteDetalhadoResponse.converteClienteParaResponse(cliente);
 
 	}
+
+	@Override
+	public List<ClienteListResponse> buscaTodosOsClientes() {
+		log.info("[inicia] ClienteApplicationService - buscaTodosOsClientes");
+		List<Cliente> clientes = clienteRepository.buscaClientes();		
+		log.info("[finaliza] ClienteApplicationService - buscaTodosOsClientes");
+		return ClienteListResponse.converte(clientes);
+	}
+
 
 }
