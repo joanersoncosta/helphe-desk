@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /helphe/api
+    context-path: /helphe-desk/api
     
 spring:    
   data:

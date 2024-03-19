@@ -16,6 +16,7 @@ import com.wakanda.handler.APIException;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +36,8 @@ public class Cliente {
 	private String nome;
 	@NotBlank
 	@Indexed(unique = true)
-	@CPF
+	@Size(min = 11, max = 11, message = "número do registro de contribuinte individual brasileiro (CPF) inválido")
+//	@CPF
 	private String cpf;
 	@Email
 	@NotBlank
