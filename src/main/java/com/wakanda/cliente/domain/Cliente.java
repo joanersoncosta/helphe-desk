@@ -6,11 +6,14 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.http.HttpStatus;
 
 import com.wakanda.cliente.domain.enuns.Sexo;
+import com.wakanda.handler.APIException;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,13 +39,14 @@ public class Cliente {
 	@NotBlank
 	@Indexed(unique = true)
 	private String email;
+	@NotNull
 	private Sexo sexo;
 	private LocalDateTime dataCadastro;
 	private LocalDateTime dataHoraDaUltimaAlteracao;
 
-	private Sexo retornaSexo(String sexo) {
+	private Sexo retornaSexoValido(String sexo) {
 		return Sexo.validaSexo(sexo)
-	            .orElseThrow();
+	            .orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "Sexo inválido, digite novamente."));
 	}
 	
 }
