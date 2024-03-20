@@ -9,8 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
 import com.wakanda.chamado.application.api.request.ChamadoRequest;
+import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.domain.enuns.Prioridade;
 import com.wakanda.chamado.domain.enuns.StatusChamado;
+import com.wakanda.cliente.domain.Cliente;
 import com.wakanda.handler.APIException;
 
 import jakarta.validation.constraints.NotBlank;
@@ -64,6 +66,17 @@ public class Chamado {
 	private StatusChamado retornaStatusChamado(String status) {
 		return StatusChamado.validaStatus(status)
 				.orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "Status inválido, digite novamente."));
+	}
+
+	public void pertenceAoCliente(Cliente cliente) {
+		if (!idCliente.equals(cliente.getIdCliente())) {
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Cliente não autorizado.");
+		}
+	}
+
+	public void edita(EditaChamadoRequest chamadoRequest) {
+		this.titulo = chamadoRequest.titulo();
+		this.observacoes = chamadoRequest.observacoes();
 	}
 
 }

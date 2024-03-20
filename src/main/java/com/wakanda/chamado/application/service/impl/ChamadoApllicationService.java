@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.wakanda.chamado.application.api.request.ChamadoRequest;
+import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
 import com.wakanda.chamado.application.api.response.ChamadoIdResponse;
 import com.wakanda.chamado.application.repository.ChamadoRepository;
@@ -28,7 +29,7 @@ public class ChamadoApllicationService implements ChamadoService {
 	private final ClienteRepository ClienteRepository;
 	private final ChamadoRepository chamadoRepository;
 	private final TecnicoRepository tecnicoRepository;
-	
+
 	@Override
 	public ChamadoIdResponse criaNovoChamado(String email, ChamadoRequest chamadoRequest) {
 		log.info("[inicia] TecnicoApplicationService - cadastraNovoTecnico");
@@ -40,7 +41,7 @@ public class ChamadoApllicationService implements ChamadoService {
 		log.info("[finaliza] TecnicoApplicationService - cadastraNovoTecnico");
 		return ChamadoIdResponse.builder().idChamado(Chamado.getIdChamado()).build();
 	}
-	
+
 	private Tecnico detalhaTecnicoPorId(UUID idTecnico) {
 		log.info("[inicia] TecnicoApplicationService - detalhaTecnicoPorId");
 		Tecnico tecnico = tecnicoRepository.buscaTecnicoPorId(idTecnico)
@@ -48,7 +49,7 @@ public class ChamadoApllicationService implements ChamadoService {
 		log.info("[finaliza] TecnicoApplicationService - detalhaTecnicoPorId");
 		return tecnico;
 	}
-	
+
 	private Cliente detalhaClientePorEmail(String email) {
 		log.info("[inicia] TecnicoApplicationService - detalhaClientePorEmail");
 		Cliente cliente = ClienteRepository.detalhaClientePorEmail(email);
@@ -60,10 +61,18 @@ public class ChamadoApllicationService implements ChamadoService {
 	public ChamadoDetalhadoResponse buscaChamadoPorId(UUID idChamado) {
 		log.info("[inicia] TecnicoApplicationService - buscaChamadoPorId");
 		log.info("[idChamado] {}", idChamado);
-		Chamado Chamado = chamadoRepository.buscaChamadoPorId(idChamado)
+		Chamado chamado = chamadoRepository.buscaChamadoPorId(idChamado)
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Chamado não encontrado para este ID."));
 		log.info("[finaliza] TecnicoApplicationService - buscaChamadoPorId");
-		return ChamadoDetalhadoResponse.converte(Chamado);
+		return ChamadoDetalhadoResponse.converte(chamado);
+	}
+
+	public Chamado detalhaChamado(UUID idChamado) {
+		log.info("[inicia] TecnicoApplicationService - detalhaChamado");
+		Chamado chamado = chamadoRepository.buscaChamadoPorId(idChamado)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Chamado não encontrado para este ID."));
+		log.info("[finaliza] TecnicoApplicationService - detalhaChamado");
+		return chamado;
 	}
 
 	@Override
@@ -72,6 +81,18 @@ public class ChamadoApllicationService implements ChamadoService {
 		List<Chamado> Chamados = chamadoRepository.buscaChamados();
 		log.info("[finaliza] TecnicoApplicationService - buscaChamados");
 		return ChamadoDetalhadoResponse.converte(Chamados);
+	}
+
+	@Override
+	public void editaChamadoPorId(String email, UUID idChamado, EditaChamadoRequest chamadoRequest) {
+		log.info("[inicia] TecnicoApplicationService - editaChamadoPorId");
+		Cliente cliente = detalhaClientePorEmail(email);
+		log.info("[cliente] {}", cliente);
+		Chamado chamado = detalhaChamado(idChamado);
+		chamado.pertenceAoCliente(cliente);
+		chamado.edita(chamadoRequest);
+		chamadoRepository.salva(chamado);
+		log.info("[finaliza] TecnicoApplicationService - editaChamadoPorId");
 	}
 
 }
