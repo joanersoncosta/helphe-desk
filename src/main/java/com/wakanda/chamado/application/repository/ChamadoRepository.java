@@ -14,4 +14,6 @@ public interface ChamadoRepository {
 
 	List<Chamado> buscaChamados();
 
+	void deletaChamado(Chamado chamado);
+
 }

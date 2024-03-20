@@ -18,4 +18,6 @@ public interface ChamadoService {
 
 	void editaChamadoPorId(String email, UUID idChamado, EditaChamadoRequest chamadoRequest);
 
+	void deletaChamadoPorId(String email, UUID idChamado);
+
 }

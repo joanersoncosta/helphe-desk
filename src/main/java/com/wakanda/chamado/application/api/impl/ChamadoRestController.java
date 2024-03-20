@@ -52,4 +52,11 @@ public class ChamadoRestController implements ChamadoAPI {
 		log.info("[finaliza] ChamadoRestController - editaChamadoPorId");
 	}
 
+	@Override
+	public void deletaChamadoPorId(String email, UUID idChamado) {
+		log.info("[inicia] ChamadoRestController - deletaChamadoPorId");
+		chamadoService.deletaChamadoPorId(email, idChamado);
+		log.info("[finaliza] ChamadoRestController - deletaChamadoPorId");
+	}
+
 }

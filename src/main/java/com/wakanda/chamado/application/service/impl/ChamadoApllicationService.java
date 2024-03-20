@@ -95,4 +95,15 @@ public class ChamadoApllicationService implements ChamadoService {
 		log.info("[finaliza] TecnicoApplicationService - editaChamadoPorId");
 	}
 
+	@Override
+	public void deletaChamadoPorId(String email, UUID idChamado) {
+		log.info("[inicia] TecnicoApplicationService - deletaChamadoPorId");
+		Cliente cliente = detalhaClientePorEmail(email);
+		log.info("[cliente] {}", cliente);
+		Chamado chamado = detalhaChamado(idChamado);
+		chamado.pertenceAoCliente(cliente);
+		chamadoRepository.deletaChamado(chamado);
+		log.info("[finaliza] TecnicoApplicationService - deletaChamadoPorId");
+	}
+
 }

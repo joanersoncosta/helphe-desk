@@ -42,4 +42,11 @@ public class ChamadoInfraRepository implements ChamadoRepository {
 		return chamados;
 	}
 
+	@Override
+	public void deletaChamado(Chamado chamado) {
+		log.info("[start] ChamadoInfraRepository - deletaChamado");
+		chamadoSpringDBMongoRepository.delete(chamado);
+		log.info("[finish] ChamadoInfraRepository - deletaChamado");
+	}
+
 }
