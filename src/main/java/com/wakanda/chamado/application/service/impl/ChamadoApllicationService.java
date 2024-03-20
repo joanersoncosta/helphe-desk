@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.wakanda.chamado.application.api.request.ChamadoRequest;
+import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
 import com.wakanda.chamado.application.api.response.ChamadoIdResponse;
 import com.wakanda.chamado.application.repository.ChamadoRepository;
 import com.wakanda.chamado.application.service.ChamadoService;
@@ -52,6 +53,16 @@ public class ChamadoApllicationService implements ChamadoService {
 		Cliente cliente = ClienteRepository.detalhaClientePorEmail(email);
 		log.info("[finaliza] TecnicoApplicationService - detalhaClientePorEmail");
 		return cliente;
+	}
+
+	@Override
+	public ChamadoDetalhadoResponse buscaChamadoPorId(UUID idChamado) {
+		log.info("[inicia] TecnicoApplicationService - buscaChamadoPorId");
+		log.info("[idChamado] {}", idChamado);
+		Chamado Chamado = chamadoRepository.buscaChamadoPorId(idChamado)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Chamado não encontrado para este ID."));
+		log.info("[finaliza] TecnicoApplicationService - buscaChamadoPorId");
+		return ChamadoDetalhadoResponse.converte(Chamado);
 	}
 
 }
