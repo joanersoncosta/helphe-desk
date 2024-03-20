@@ -1,5 +1,6 @@
 package com.wakanda.chamado.infra;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,6 +32,14 @@ public class ChamadoInfraRepository implements ChamadoRepository {
 		Optional<Chamado> chamado = chamadoSpringDBMongoRepository.findById(idChamado);
 		log.info("[finish] ChamadoInfraRepository - buscaChamadoPorId");
 		return chamado;
+	}
+
+	@Override
+	public List<Chamado> buscaChamados() {
+		log.info("[start] ChamadoInfraRepository - buscaChamados");
+		List<Chamado> chamados = chamadoSpringDBMongoRepository.findAll();
+		log.info("[finish] ChamadoInfraRepository - buscaChamados");
+		return chamados;
 	}
 
 }

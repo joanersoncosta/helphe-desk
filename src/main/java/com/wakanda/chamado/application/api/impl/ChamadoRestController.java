@@ -1,5 +1,6 @@
 package com.wakanda.chamado.application.api.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,14 @@ public class ChamadoRestController implements ChamadoAPI {
 		ChamadoDetalhadoResponse chamado = chamadoService.buscaChamadoPorId(idChamado);
 		log.info("[finaliza] ChamadoRestController - buscaChamadoPorId");
 		return chamado;
+	}
+
+	@Override
+	public List<ChamadoDetalhadoResponse> buscaChamados(String email) {
+		log.info("[inicia] ChamadoRestController - buscaChamados");
+		List<ChamadoDetalhadoResponse> chamados = chamadoService.buscaChamados();
+		log.info("[finaliza] ChamadoRestController - buscaChamados");
+		return chamados;
 	}
 
 }

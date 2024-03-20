@@ -1,5 +1,6 @@
 package com.wakanda.chamado.application.api;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -31,5 +32,9 @@ public interface ChamadoAPI {
 	@ResponseStatus(value = HttpStatus.OK)
 	ChamadoDetalhadoResponse buscaChamadoPorId(@RequestParam(name = "email", required = true) String email,
 			@PathVariable(value = "idChamado") UUID idChamado);
+
+	@GetMapping(value = "/busca")
+	@ResponseStatus(value = HttpStatus.OK)
+	List<ChamadoDetalhadoResponse> buscaChamados(@RequestParam(name = "email", required = true) String email);
 
 }

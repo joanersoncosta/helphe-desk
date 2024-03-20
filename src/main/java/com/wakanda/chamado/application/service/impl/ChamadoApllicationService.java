@@ -1,5 +1,6 @@
 package com.wakanda.chamado.application.service.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -63,6 +64,14 @@ public class ChamadoApllicationService implements ChamadoService {
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Chamado não encontrado para este ID."));
 		log.info("[finaliza] TecnicoApplicationService - buscaChamadoPorId");
 		return ChamadoDetalhadoResponse.converte(Chamado);
+	}
+
+	@Override
+	public List<ChamadoDetalhadoResponse> buscaChamados() {
+		log.info("[inicia] TecnicoApplicationService - buscaChamados");
+		List<Chamado> Chamados = chamadoRepository.buscaChamados();
+		log.info("[finaliza] TecnicoApplicationService - buscaChamados");
+		return ChamadoDetalhadoResponse.converte(Chamados);
 	}
 
 }
