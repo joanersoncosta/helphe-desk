@@ -130,4 +130,13 @@ public class ChamadoApllicationService implements ChamadoService {
 		return ChamadoDetalhadoResponse.converte(Chamados);
 	}
 
+	@Override
+	public void mudaPrioridadeParaMedia(UUID idChamado) {
+		log.info("[inicia] TecnicoApplicationService - mudaPrioridadeParaMedia");
+		Chamado chamado = detalhaChamado(idChamado);
+		chamado.mudaPrioridadeMedia();
+		chamadoRepository.salva(chamado);
+		log.info("[finaliza] TecnicoApplicationService - mudaPrioridadeParaMedia");
+	}
+
 }

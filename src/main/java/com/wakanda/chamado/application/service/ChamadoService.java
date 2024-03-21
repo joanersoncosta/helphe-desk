@@ -26,4 +26,6 @@ public interface ChamadoService {
 
 	List<ChamadoDetalhadoResponse> buscaChamadosPorStatus(BuscaStatusRequest statusRequest);
 
+	void mudaPrioridadeParaMedia(UUID idChamado);
+
 }

@@ -79,4 +79,8 @@ public class Chamado {
 		this.observacoes = chamadoRequest.observacoes();
 	}
 
+	public void mudaPrioridadeMedia() {
+		this.prioridade = Prioridade.MEDIA;
+	}
+
 }

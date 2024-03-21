@@ -42,16 +42,6 @@ public interface ChamadoAPI {
 	@ResponseStatus(value = HttpStatus.OK)
 	List<ChamadoDetalhadoResponse> buscaChamados(@RequestParam(name = "email", required = true) String email);
 
-	@PatchMapping(value = "/{idChamado}/edita")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	void editaChamadoPorId(@RequestParam(name = "email", required = true) String email,
-			@PathVariable(value = "idChamado") UUID idChamado, @RequestBody @Valid EditaChamadoRequest chamadoRequest);
-
-	@DeleteMapping(value = "/{idChamado}/deleta")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	void deletaChamadoPorId(@RequestParam(name = "email", required = true) String email,
-			@PathVariable(value = "idChamado") UUID idChamado);
-
 	@GetMapping(value = "/restrito/prioridade/busca")
 	@ResponseStatus(value = HttpStatus.OK)
 	List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(
@@ -61,5 +51,21 @@ public interface ChamadoAPI {
 	@ResponseStatus(value = HttpStatus.OK)
 	List<ChamadoDetalhadoResponse> buscaChamadosPorStatus(
 			@RequestParam(name = "email", required = true) String email, @RequestBody @Valid BuscaStatusRequest statusRequest);
+
+	@PatchMapping(value = "/{idChamado}/edita")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	void editaChamadoPorId(@RequestParam(name = "email", required = true) String email,
+			@PathVariable(value = "idChamado") UUID idChamado, @RequestBody @Valid EditaChamadoRequest chamadoRequest);
+
+	@PatchMapping(value = "/{idChamado}/restrito/prioridade/media/edita")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	void mudaPrioridadeParaMedia(@RequestParam(name = "email", required = true) String email,
+			@PathVariable(value = "idChamado") UUID idChamado);
+
+	@DeleteMapping(value = "/{idChamado}/deleta")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	void deletaChamadoPorId(@RequestParam(name = "email", required = true) String email,
+			@PathVariable(value = "idChamado") UUID idChamado);
+
 
 }

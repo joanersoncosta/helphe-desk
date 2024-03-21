@@ -14,7 +14,6 @@ import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
 import com.wakanda.chamado.application.api.response.ChamadoIdResponse;
 import com.wakanda.chamado.application.service.ChamadoService;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -49,20 +48,6 @@ public class ChamadoRestController implements ChamadoAPI {
 	}
 
 	@Override
-	public void editaChamadoPorId(String email, UUID idChamado, EditaChamadoRequest chamadoRequest) {
-		log.info("[inicia] ChamadoRestController - editaChamadoPorId");
-		chamadoService.editaChamadoPorId(email, idChamado, chamadoRequest);
-		log.info("[finaliza] ChamadoRestController - editaChamadoPorId");
-	}
-
-	@Override
-	public void deletaChamadoPorId(String email, UUID idChamado) {
-		log.info("[inicia] ChamadoRestController - deletaChamadoPorId");
-		chamadoService.deletaChamadoPorId(email, idChamado);
-		log.info("[finaliza] ChamadoRestController - deletaChamadoPorId");
-	}
-
-	@Override
 	public List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(String email,
 			BuscaPrioridadeRequest prioridadeRequest) {
 		log.info("[inicia] ChamadoRestController - buscaChamadosPorPrioridade");
@@ -77,7 +62,27 @@ public class ChamadoRestController implements ChamadoAPI {
 		List<ChamadoDetalhadoResponse> chamados = chamadoService.buscaChamadosPorStatus(statusRequest);
 		log.info("[finaliza] ChamadoRestController - buscaChamadosPorStatus");
 		return chamados;
+	}
 
+	@Override
+	public void editaChamadoPorId(String email, UUID idChamado, EditaChamadoRequest chamadoRequest) {
+		log.info("[inicia] ChamadoRestController - editaChamadoPorId");
+		chamadoService.editaChamadoPorId(email, idChamado, chamadoRequest);
+		log.info("[finaliza] ChamadoRestController - editaChamadoPorId");
+	}
+
+	@Override
+	public void mudaPrioridadeParaMedia(String email, UUID idChamado) {
+		log.info("[inicia] ChamadoRestController - mudaPrioridadeParaMedia");
+		chamadoService.mudaPrioridadeParaMedia(idChamado);
+		log.info("[finaliza] ChamadoRestController - mudaPrioridadeParaMedia");
+	}
+	
+	@Override
+	public void deletaChamadoPorId(String email, UUID idChamado) {
+		log.info("[inicia] ChamadoRestController - deletaChamadoPorId");
+		chamadoService.deletaChamadoPorId(email, idChamado);
+		log.info("[finaliza] ChamadoRestController - deletaChamadoPorId");
 	}
 
 }
