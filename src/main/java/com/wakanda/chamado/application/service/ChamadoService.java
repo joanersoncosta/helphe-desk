@@ -32,4 +32,6 @@ public interface ChamadoService {
 
 	void mudaStatusParaAndamento(UUID idChamado);
 
+	void mudaStatusParaEncerrado(UUID idChamado);
+
 }

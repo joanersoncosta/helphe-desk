@@ -86,4 +86,9 @@ public class Chamado {
 		this.status = StatusChamado.ANDAMENTO;
 	}
 
+	public void mudaStatusParaEncerrado() {
+		this.status = StatusChamado.ENCERRADO;
+		this.dataFechamento = LocalDate.now();
+	}
+
 }

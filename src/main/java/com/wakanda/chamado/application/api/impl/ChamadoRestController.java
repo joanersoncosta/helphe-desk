@@ -93,6 +93,12 @@ public class ChamadoRestController implements ChamadoAPI {
 	}
 	
 	@Override
+	public void mudaStatusParaEncerrado(String email, UUID idChamado) {
+		log.info("[inicia] ChamadoRestController - mudaStatusParaEncerrado");
+		chamadoService.mudaStatusParaEncerrado(idChamado);
+		log.info("[finaliza] ChamadoRestController - mudaStatusParaEncerrado");
+	}
+	@Override
 	public void deletaChamadoPorId(String email, UUID idChamado) {
 		log.info("[inicia] ChamadoRestController - deletaChamadoPorId");
 		chamadoService.deletaChamadoPorId(email, idChamado);

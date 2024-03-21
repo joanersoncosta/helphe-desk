@@ -145,6 +145,15 @@ public class ChamadoApllicationService implements ChamadoService {
 		chamadoRepository.salva(chamado);
 		log.info("[finaliza] TecnicoApplicationService - mudaStatusParaAndamento");
 	}
+	
+	@Override
+	public void mudaStatusParaEncerrado(UUID idChamado) {
+		log.info("[inicia] TecnicoApplicationService - mudaStatusParaEncerrado");
+		Chamado chamado = detalhaChamado(idChamado);
+		chamado.mudaStatusParaEncerrado();
+		chamadoRepository.salva(chamado);
+		log.info("[finaliza] TecnicoApplicationService - mudaStatusParaEncerrado");
+	}
 
 	@Override
 	public void deletaChamadoPorId(String email, UUID idChamado) {
