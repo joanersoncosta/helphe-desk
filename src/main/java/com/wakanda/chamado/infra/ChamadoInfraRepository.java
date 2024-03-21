@@ -75,4 +75,14 @@ public class ChamadoInfraRepository implements ChamadoRepository {
 		return chamados;
 	}
 
+	@Override
+	public List<Chamado> buscaChamadosDoCliente(UUID idCliente) {
+		log.info("[start] ChamadoInfraRepository - buscaChamadosDoCliente");
+		Query query = new Query();
+		query.addCriteria(Criteria.where("idCliente").is(idCliente));
+		List<Chamado> chamados = mongoTemplate.find(query, Chamado.class);
+		log.info("[finish] ChamadoInfraRepository - buscaChamadosDoCliente");
+		return chamados;
+	}
+
 }

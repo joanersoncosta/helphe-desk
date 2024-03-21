@@ -22,4 +22,6 @@ public interface ChamadoRepository {
 
 	List<Chamado> buscaChamadosPorStatus(StatusChamado status);
 
+	List<Chamado> buscaChamadosDoCliente(UUID idCliente);
+
 }

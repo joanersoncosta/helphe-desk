@@ -34,4 +34,6 @@ public interface ChamadoService {
 
 	void mudaStatusParaEncerrado(UUID idChamado);
 
+	List<ChamadoDetalhadoResponse> buscaChamadosDoCliente(String email);
+
 }

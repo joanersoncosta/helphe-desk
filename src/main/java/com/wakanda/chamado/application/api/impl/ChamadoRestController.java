@@ -63,6 +63,15 @@ public class ChamadoRestController implements ChamadoAPI {
 		log.info("[finaliza] ChamadoRestController - buscaChamadosPorStatus");
 		return chamados;
 	}
+	
+	@Override
+	public List<ChamadoDetalhadoResponse> buscaChamadosDoCliente(String email) {
+		log.info("[inicia] ChamadoRestController - buscaChamadosDoCliente");
+		List<ChamadoDetalhadoResponse> chamados = chamadoService.buscaChamadosDoCliente(email);
+		log.info("[finaliza] ChamadoRestController - buscaChamadosDoCliente");
+		return chamados;
+	}
+
 
 	@Override
 	public void editaChamadoPorId(String email, UUID idChamado, EditaChamadoRequest chamadoRequest) {

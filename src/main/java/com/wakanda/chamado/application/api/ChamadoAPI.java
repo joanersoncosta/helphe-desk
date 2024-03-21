@@ -45,12 +45,17 @@ public interface ChamadoAPI {
 	@GetMapping(value = "/restrito/prioridade/busca")
 	@ResponseStatus(value = HttpStatus.OK)
 	List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(
-			@RequestParam(name = "email", required = true) String email, @RequestBody @Valid BuscaPrioridadeRequest prioridadeRequest);
+			@RequestParam(name = "email", required = true) String email,
+			@RequestBody @Valid BuscaPrioridadeRequest prioridadeRequest);
 
 	@GetMapping(value = "/restrito/status/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	List<ChamadoDetalhadoResponse> buscaChamadosPorStatus(
-			@RequestParam(name = "email", required = true) String email, @RequestBody @Valid BuscaStatusRequest statusRequest);
+	List<ChamadoDetalhadoResponse> buscaChamadosPorStatus(@RequestParam(name = "email", required = true) String email,
+			@RequestBody @Valid BuscaStatusRequest statusRequest);
+
+	@GetMapping(value = "/cliente/busca")
+	@ResponseStatus(value = HttpStatus.OK)
+	List<ChamadoDetalhadoResponse> buscaChamadosDoCliente(@RequestParam(name = "email", required = true) String email);
 
 	@PatchMapping(value = "/{idChamado}/edita")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
