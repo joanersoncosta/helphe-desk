@@ -28,4 +28,6 @@ public interface ChamadoService {
 
 	void mudaPrioridadeParaMedia(UUID idChamado);
 
+	void mudaPrioridadeParaAlta(UUID idChamado);
+
 }

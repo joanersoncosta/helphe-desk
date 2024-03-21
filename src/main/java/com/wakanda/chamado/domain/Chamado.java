@@ -83,4 +83,8 @@ public class Chamado {
 		this.prioridade = Prioridade.MEDIA;
 	}
 
+	public void mudaPrioridadeAlta() {
+		this.prioridade = Prioridade.ALTA;
+	}
+
 }

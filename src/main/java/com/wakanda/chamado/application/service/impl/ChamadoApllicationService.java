@@ -86,30 +86,7 @@ public class ChamadoApllicationService implements ChamadoService {
 		log.info("[finaliza] TecnicoApplicationService - buscaChamados");
 		return ChamadoDetalhadoResponse.converte(Chamados);
 	}
-
-	@Override
-	public void editaChamadoPorId(String email, UUID idChamado, EditaChamadoRequest chamadoRequest) {
-		log.info("[inicia] TecnicoApplicationService - editaChamadoPorId");
-		Cliente cliente = detalhaClientePorEmail(email);
-		log.info("[cliente] {}", cliente);
-		Chamado chamado = detalhaChamado(idChamado);
-		chamado.pertenceAoCliente(cliente);
-		chamado.edita(chamadoRequest);
-		chamadoRepository.salva(chamado);
-		log.info("[finaliza] TecnicoApplicationService - editaChamadoPorId");
-	}
-
-	@Override
-	public void deletaChamadoPorId(String email, UUID idChamado) {
-		log.info("[inicia] TecnicoApplicationService - deletaChamadoPorId");
-		Cliente cliente = detalhaClientePorEmail(email);
-		log.info("[cliente] {}", cliente);
-		Chamado chamado = detalhaChamado(idChamado);
-		chamado.pertenceAoCliente(cliente);
-		chamadoRepository.deletaChamado(chamado);
-		log.info("[finaliza] TecnicoApplicationService - deletaChamadoPorId");
-	}
-
+	
 	@Override
 	public List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(BuscaPrioridadeRequest prioridadeRequest) {
 		log.info("[inicia] TecnicoApplicationService - buscaChamadosPorPrioridade");
@@ -131,12 +108,44 @@ public class ChamadoApllicationService implements ChamadoService {
 	}
 
 	@Override
+	public void editaChamadoPorId(String email, UUID idChamado, EditaChamadoRequest chamadoRequest) {
+		log.info("[inicia] TecnicoApplicationService - editaChamadoPorId");
+		Cliente cliente = detalhaClientePorEmail(email);
+		log.info("[cliente] {}", cliente);
+		Chamado chamado = detalhaChamado(idChamado);
+		chamado.pertenceAoCliente(cliente);
+		chamado.edita(chamadoRequest);
+		chamadoRepository.salva(chamado);
+		log.info("[finaliza] TecnicoApplicationService - editaChamadoPorId");
+	}
+	
+	@Override
 	public void mudaPrioridadeParaMedia(UUID idChamado) {
 		log.info("[inicia] TecnicoApplicationService - mudaPrioridadeParaMedia");
 		Chamado chamado = detalhaChamado(idChamado);
 		chamado.mudaPrioridadeMedia();
 		chamadoRepository.salva(chamado);
 		log.info("[finaliza] TecnicoApplicationService - mudaPrioridadeParaMedia");
+	}
+
+	@Override
+	public void mudaPrioridadeParaAlta(UUID idChamado) {
+		log.info("[inicia] TecnicoApplicationService - mudaPrioridadeParaAlta");
+		Chamado chamado = detalhaChamado(idChamado);
+		chamado.mudaPrioridadeAlta();
+		chamadoRepository.salva(chamado);
+		log.info("[finaliza] TecnicoApplicationService - mudaPrioridadeParaAlta");
+	}
+
+	@Override
+	public void deletaChamadoPorId(String email, UUID idChamado) {
+		log.info("[inicia] TecnicoApplicationService - deletaChamadoPorId");
+		Cliente cliente = detalhaClientePorEmail(email);
+		log.info("[cliente] {}", cliente);
+		Chamado chamado = detalhaChamado(idChamado);
+		chamado.pertenceAoCliente(cliente);
+		chamadoRepository.deletaChamado(chamado);
+		log.info("[finaliza] TecnicoApplicationService - deletaChamadoPorId");
 	}
 
 }

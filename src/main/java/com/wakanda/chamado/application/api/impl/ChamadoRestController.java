@@ -79,6 +79,13 @@ public class ChamadoRestController implements ChamadoAPI {
 	}
 	
 	@Override
+	public void mudaPrioridadeParaAlta(String email, UUID idChamado) {
+		log.info("[inicia] ChamadoRestController - mudaPrioridadeParaAlta");
+		chamadoService.mudaPrioridadeParaAlta(idChamado);
+		log.info("[finaliza] ChamadoRestController - mudaPrioridadeParaAlta");
+	}
+	
+	@Override
 	public void deletaChamadoPorId(String email, UUID idChamado) {
 		log.info("[inicia] ChamadoRestController - deletaChamadoPorId");
 		chamadoService.deletaChamadoPorId(email, idChamado);
