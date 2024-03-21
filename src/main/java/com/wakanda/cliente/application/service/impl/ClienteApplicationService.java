@@ -14,6 +14,8 @@ import com.wakanda.cliente.application.api.response.ClienteListResponse;
 import com.wakanda.cliente.application.repository.ClienteRepository;
 import com.wakanda.cliente.application.service.ClienteService;
 import com.wakanda.cliente.domain.Cliente;
+import com.wakanda.credencial.application.service.CredencialService;
+import com.wakanda.credencial.domain.CredencialCliente;
 import com.wakanda.handler.APIException;
 
 import lombok.RequiredArgsConstructor;
@@ -24,11 +26,13 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class ClienteApplicationService implements ClienteService {
 	private final ClienteRepository clienteRepository;
-
+	private final CredencialService credencialService;
+	
 	@Override
 	public ClienteIdResponse cadastraNovoCliente(ClienteNovoRequest clienteRequest) {
 		log.info("[inicia] ClienteApplicationService - cadastraNovoCliente");
 		Cliente cliente = clienteRepository.salva(new Cliente(clienteRequest));
+		credencialService.criaNovaCredencial(new CredencialCliente(clienteRequest));
 		log.info("[finaliza] ClienteApplicationService - cadastraNovoCliente");
 		return ClienteIdResponse.builder().idCliente(cliente.getIdCliente()).build();
 	}
