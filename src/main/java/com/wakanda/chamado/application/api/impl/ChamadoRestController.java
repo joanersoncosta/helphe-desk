@@ -86,6 +86,13 @@ public class ChamadoRestController implements ChamadoAPI {
 	}
 	
 	@Override
+	public void mudaStatusParaAndamento(String email, UUID idChamado) {
+		log.info("[inicia] ChamadoRestController - mudaStatusParaAndamento");
+		chamadoService.mudaStatusParaAndamento(idChamado);
+		log.info("[finaliza] ChamadoRestController - mudaStatusParaAndamento");
+	}
+	
+	@Override
 	public void deletaChamadoPorId(String email, UUID idChamado) {
 		log.info("[inicia] ChamadoRestController - deletaChamadoPorId");
 		chamadoService.deletaChamadoPorId(email, idChamado);

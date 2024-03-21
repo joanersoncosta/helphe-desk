@@ -30,4 +30,6 @@ public interface ChamadoService {
 
 	void mudaPrioridadeParaAlta(UUID idChamado);
 
+	void mudaStatusParaAndamento(UUID idChamado);
+
 }

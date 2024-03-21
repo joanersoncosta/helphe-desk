@@ -67,10 +67,14 @@ public interface ChamadoAPI {
 	void mudaPrioridadeParaAlta(@RequestParam(name = "email", required = true) String email,
 			@PathVariable(value = "idChamado") UUID idChamado);
 
+	@PatchMapping(value = "/{idChamado}/restrito/status/andamento/edita")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	void mudaStatusParaAndamento(@RequestParam(name = "email", required = true) String email,
+			@PathVariable(value = "idChamado") UUID idChamado);
+
 	@DeleteMapping(value = "/{idChamado}/deleta")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void deletaChamadoPorId(@RequestParam(name = "email", required = true) String email,
 			@PathVariable(value = "idChamado") UUID idChamado);
-
 
 }

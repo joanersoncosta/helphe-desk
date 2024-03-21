@@ -123,7 +123,7 @@ public class ChamadoApllicationService implements ChamadoService {
 	public void mudaPrioridadeParaMedia(UUID idChamado) {
 		log.info("[inicia] TecnicoApplicationService - mudaPrioridadeParaMedia");
 		Chamado chamado = detalhaChamado(idChamado);
-		chamado.mudaPrioridadeMedia();
+		chamado.mudaPrioridadeParaMedia();
 		chamadoRepository.salva(chamado);
 		log.info("[finaliza] TecnicoApplicationService - mudaPrioridadeParaMedia");
 	}
@@ -132,9 +132,18 @@ public class ChamadoApllicationService implements ChamadoService {
 	public void mudaPrioridadeParaAlta(UUID idChamado) {
 		log.info("[inicia] TecnicoApplicationService - mudaPrioridadeParaAlta");
 		Chamado chamado = detalhaChamado(idChamado);
-		chamado.mudaPrioridadeAlta();
+		chamado.mudaPrioridadeParaAlta();
 		chamadoRepository.salva(chamado);
 		log.info("[finaliza] TecnicoApplicationService - mudaPrioridadeParaAlta");
+	}
+	
+	@Override
+	public void mudaStatusParaAndamento(UUID idChamado) {
+		log.info("[inicia] TecnicoApplicationService - mudaStatusParaAndamento");
+		Chamado chamado = detalhaChamado(idChamado);
+		chamado.mudaStatusParaAndamento();
+		chamadoRepository.salva(chamado);
+		log.info("[finaliza] TecnicoApplicationService - mudaStatusParaAndamento");
 	}
 
 	@Override

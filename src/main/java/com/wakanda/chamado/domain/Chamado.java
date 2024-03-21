@@ -63,11 +63,6 @@ public class Chamado {
 				() -> APIException.build(HttpStatus.BAD_REQUEST, "Prioridade inválida, digite novamente."));
 	}
 
-	private StatusChamado retornaStatusChamado(String status) {
-		return StatusChamado.validaStatus(status)
-				.orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "Status inválido, digite novamente."));
-	}
-
 	public void pertenceAoCliente(Cliente cliente) {
 		if (!idCliente.equals(cliente.getIdCliente())) {
 			throw APIException.build(HttpStatus.UNAUTHORIZED, "Cliente não autorizado.");
@@ -79,12 +74,16 @@ public class Chamado {
 		this.observacoes = chamadoRequest.observacoes();
 	}
 
-	public void mudaPrioridadeMedia() {
+	public void mudaPrioridadeParaMedia() {
 		this.prioridade = Prioridade.MEDIA;
 	}
 
-	public void mudaPrioridadeAlta() {
+	public void mudaPrioridadeParaAlta() {
 		this.prioridade = Prioridade.ALTA;
+	}
+
+	public void mudaStatusParaAndamento() {
+		this.status = StatusChamado.ANDAMENTO;
 	}
 
 }
