@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,8 +20,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Document(collection = "Credencial")
 public class Credencial implements UserDetails {
-	@MongoId
-//	private UUID idCredencial;
+	
+	@MongoId(targetType = FieldType.STRING)
+	private String idCredencial;
 	@Getter
 	private String usuario;
 
