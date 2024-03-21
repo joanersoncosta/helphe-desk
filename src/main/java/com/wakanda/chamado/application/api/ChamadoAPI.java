@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wakanda.chamado.application.api.request.BuscaPrioridadeRequest;
 import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
@@ -25,7 +26,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/v1/chamado")
 public interface ChamadoAPI {
-	
+
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	ChamadoIdResponse criaNovoChamado(@RequestParam(name = "email", required = true) String token,
@@ -49,5 +50,10 @@ public interface ChamadoAPI {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void deletaChamadoPorId(@RequestParam(name = "email", required = true) String email,
 			@PathVariable(value = "idChamado") UUID idChamado);
+
+	@GetMapping(value = "/restrito/prioridade/busca")
+	@ResponseStatus(value = HttpStatus.OK)
+	List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(
+			@RequestParam(name = "email", required = true) String email, @RequestBody @Valid BuscaPrioridadeRequest prioridadeRequest);
 
 }

@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.wakanda.chamado.application.repository.ChamadoRepository;
 import com.wakanda.chamado.domain.Chamado;
+import com.wakanda.chamado.domain.enuns.Prioridade;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,7 +21,8 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 public class ChamadoInfraRepository implements ChamadoRepository {
 	private final ChamadoSpringDBMongoRepository chamadoSpringDBMongoRepository;
-	
+	private final MongoTemplate mongoTemplate;
+
 	@Override
 	public Chamado salva(Chamado chamado) {
 		log.info("[start] ChamadoInfraRepository - salva");
@@ -47,6 +52,16 @@ public class ChamadoInfraRepository implements ChamadoRepository {
 		log.info("[start] ChamadoInfraRepository - deletaChamado");
 		chamadoSpringDBMongoRepository.delete(chamado);
 		log.info("[finish] ChamadoInfraRepository - deletaChamado");
+	}
+
+	@Override
+	public List<Chamado> buscaChamadosPorPrioridade(Prioridade prioridade) {
+		log.info("[start] ChamadoInfraRepository - buscaChamadosPorPrioridade");
+		Query query = new Query();
+		query.addCriteria(Criteria.where("prioridade").is(prioridade));
+		List<Chamado> chamados = mongoTemplate.find(query, Chamado.class);
+		log.info("[finish] ChamadoInfraRepository - buscaChamadosPorPrioridade");
+		return chamados;
 	}
 
 }

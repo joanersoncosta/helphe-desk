@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.wakanda.chamado.application.api.request.BuscaPrioridadeRequest;
 import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
@@ -13,6 +14,7 @@ import com.wakanda.chamado.application.api.response.ChamadoIdResponse;
 import com.wakanda.chamado.application.repository.ChamadoRepository;
 import com.wakanda.chamado.application.service.ChamadoService;
 import com.wakanda.chamado.domain.Chamado;
+import com.wakanda.chamado.domain.enuns.Prioridade;
 import com.wakanda.cliente.application.repository.ClienteRepository;
 import com.wakanda.cliente.domain.Cliente;
 import com.wakanda.handler.APIException;
@@ -104,6 +106,16 @@ public class ChamadoApllicationService implements ChamadoService {
 		chamado.pertenceAoCliente(cliente);
 		chamadoRepository.deletaChamado(chamado);
 		log.info("[finaliza] TecnicoApplicationService - deletaChamadoPorId");
+	}
+
+	@Override
+	public List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(BuscaPrioridadeRequest prioridadeRequest) {
+		log.info("[inicia] TecnicoApplicationService - buscaChamadosPorPrioridade");
+		Prioridade prioridade = Prioridade.validaPrioridade(prioridadeRequest.prioridade()).orElseThrow(
+				() -> APIException.build(HttpStatus.BAD_REQUEST, "Nenhum Chamado encontrado para esta Prioridade."));
+		List<Chamado> Chamados = chamadoRepository.buscaChamadosPorPrioridade(prioridade);
+		log.info("[finaliza] TecnicoApplicationService - buscaChamadosPorPrioridade");
+		return ChamadoDetalhadoResponse.converte(Chamados);
 	}
 
 }

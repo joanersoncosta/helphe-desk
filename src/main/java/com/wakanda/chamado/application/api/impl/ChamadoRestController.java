@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wakanda.chamado.application.api.ChamadoAPI;
+import com.wakanda.chamado.application.api.request.BuscaPrioridadeRequest;
 import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
@@ -57,6 +58,15 @@ public class ChamadoRestController implements ChamadoAPI {
 		log.info("[inicia] ChamadoRestController - deletaChamadoPorId");
 		chamadoService.deletaChamadoPorId(email, idChamado);
 		log.info("[finaliza] ChamadoRestController - deletaChamadoPorId");
+	}
+
+	@Override
+	public List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(String email,
+			BuscaPrioridadeRequest prioridadeRequest) {
+		log.info("[inicia] ChamadoRestController - buscaChamadosPorPrioridade");
+		List<ChamadoDetalhadoResponse> chamados = chamadoService.buscaChamadosPorPrioridade(prioridadeRequest);
+		log.info("[finaliza] ChamadoRestController - buscaChamadosPorPrioridade");
+		return chamados;
 	}
 
 }
