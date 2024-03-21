@@ -1,6 +1,6 @@
 package com.wakanda.credencial.domain;
 
-import com.wakanda.cliente.application.api.request.ClienteNovoRequest;
+import com.wakanda.tecnico.application.api.request.TecnicoNovoRequest;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -14,9 +14,9 @@ public class CredencialTecnico {
 	private String senha;
 	private Perfil nome;
 	
-	public CredencialTecnico(ClienteNovoRequest cliente) {
-		this.email = cliente.email();
-		this.senha = cliente.senha();
+	public CredencialTecnico(TecnicoNovoRequest tecnico) {
+		this.email = tecnico.email();
+		this.senha = tecnico.senha();
 		this.nome = new Perfil("TECNICO");
 	}
 }

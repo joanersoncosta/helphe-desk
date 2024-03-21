@@ -19,6 +19,9 @@ public record TecnicoNovoRequest(
 		@NotNull(message = "Campo email não pode ser nulo.")
 		@Indexed(unique = true)
 		String email,
+		@NotBlank(message = "Campo senha não pode está vazio.")
+		@Size(min = 6, max = 9)
+		String senha,
 		@NotNull(message = "Digite novamente o sexo.")
 		String sexo	
 		) {}
