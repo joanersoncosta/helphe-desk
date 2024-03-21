@@ -57,6 +57,10 @@ public interface ChamadoAPI {
 	@ResponseStatus(value = HttpStatus.OK)
 	List<ChamadoDetalhadoResponse> buscaChamadosDoCliente(@RequestParam(name = "email", required = true) String email);
 
+	@GetMapping(value = "/tecnico/busca")
+	@ResponseStatus(value = HttpStatus.OK)
+	List<ChamadoDetalhadoResponse> buscaChamadosDoTecnico(@RequestParam(name = "email", required = true) String email);
+
 	@PatchMapping(value = "/{idChamado}/edita")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void editaChamadoPorId(@RequestParam(name = "email", required = true) String email,

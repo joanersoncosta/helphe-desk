@@ -49,13 +49,6 @@ public class ChamadoInfraRepository implements ChamadoRepository {
 	}
 
 	@Override
-	public void deletaChamado(Chamado chamado) {
-		log.info("[start] ChamadoInfraRepository - deletaChamado");
-		chamadoSpringDBMongoRepository.delete(chamado);
-		log.info("[finish] ChamadoInfraRepository - deletaChamado");
-	}
-
-	@Override
 	public List<Chamado> buscaChamadosPorPrioridade(Prioridade prioridade) {
 		log.info("[start] ChamadoInfraRepository - buscaChamadosPorPrioridade");
 		Query query = new Query();
@@ -83,6 +76,23 @@ public class ChamadoInfraRepository implements ChamadoRepository {
 		List<Chamado> chamados = mongoTemplate.find(query, Chamado.class);
 		log.info("[finish] ChamadoInfraRepository - buscaChamadosDoCliente");
 		return chamados;
+	}
+
+	@Override
+	public List<Chamado> buscaChamadosDoTecnico(UUID idTecnico) {
+		log.info("[start] ChamadoInfraRepository - buscaChamadosDoTecnico");
+		Query query = new Query();
+		query.addCriteria(Criteria.where("idTecnico").is(idTecnico));
+		List<Chamado> chamados = mongoTemplate.find(query, Chamado.class);
+		log.info("[finish] ChamadoInfraRepository - buscaChamadosDoTecnico");
+		return chamados;
+	}
+
+	@Override
+	public void deletaChamado(Chamado chamado) {
+		log.info("[start] ChamadoInfraRepository - deletaChamado");
+		chamadoSpringDBMongoRepository.delete(chamado);
+		log.info("[finish] ChamadoInfraRepository - deletaChamado");
 	}
 
 }

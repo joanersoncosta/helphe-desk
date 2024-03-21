@@ -116,6 +116,16 @@ public class ChamadoApllicationService implements ChamadoService {
 		log.info("[finaliza] TecnicoApplicationService - buscaChamadosDoCliente");
 		return ChamadoDetalhadoResponse.converte(Chamados);
 	}
+	
+	@Override
+	public List<ChamadoDetalhadoResponse> buscaChamadosDoTecnico(String email) {
+		log.info("[inicia] TecnicoApplicationService - buscaChamadosDoTecnico");
+		Tecnico tecnico = tecnicoRepository.buscaTecnicoPorEmail(email);
+		log.info("[tecnico] {}", tecnico);
+		List<Chamado> Chamados = chamadoRepository.buscaChamadosDoTecnico(tecnico.getIdTecnico());
+		log.info("[finaliza] TecnicoApplicationService - buscaChamadosDoTecnico");
+		return ChamadoDetalhadoResponse.converte(Chamados);
+	}
 
 	@Override
 	public void editaChamadoPorId(String email, UUID idChamado, EditaChamadoRequest chamadoRequest) {

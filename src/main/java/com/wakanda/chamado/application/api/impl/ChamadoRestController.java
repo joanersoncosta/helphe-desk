@@ -63,7 +63,7 @@ public class ChamadoRestController implements ChamadoAPI {
 		log.info("[finaliza] ChamadoRestController - buscaChamadosPorStatus");
 		return chamados;
 	}
-	
+
 	@Override
 	public List<ChamadoDetalhadoResponse> buscaChamadosDoCliente(String email) {
 		log.info("[inicia] ChamadoRestController - buscaChamadosDoCliente");
@@ -72,6 +72,13 @@ public class ChamadoRestController implements ChamadoAPI {
 		return chamados;
 	}
 
+	@Override
+	public List<ChamadoDetalhadoResponse> buscaChamadosDoTecnico(String email) {
+		log.info("[inicia] ChamadoRestController - buscaChamadosDoTecnico");
+		List<ChamadoDetalhadoResponse> chamados = chamadoService.buscaChamadosDoTecnico(email);
+		log.info("[finaliza] ChamadoRestController - buscaChamadosDoTecnico");
+		return chamados;
+	}
 
 	@Override
 	public void editaChamadoPorId(String email, UUID idChamado, EditaChamadoRequest chamadoRequest) {
@@ -86,27 +93,28 @@ public class ChamadoRestController implements ChamadoAPI {
 		chamadoService.mudaPrioridadeParaMedia(idChamado);
 		log.info("[finaliza] ChamadoRestController - mudaPrioridadeParaMedia");
 	}
-	
+
 	@Override
 	public void mudaPrioridadeParaAlta(String email, UUID idChamado) {
 		log.info("[inicia] ChamadoRestController - mudaPrioridadeParaAlta");
 		chamadoService.mudaPrioridadeParaAlta(idChamado);
 		log.info("[finaliza] ChamadoRestController - mudaPrioridadeParaAlta");
 	}
-	
+
 	@Override
 	public void mudaStatusParaAndamento(String email, UUID idChamado) {
 		log.info("[inicia] ChamadoRestController - mudaStatusParaAndamento");
 		chamadoService.mudaStatusParaAndamento(idChamado);
 		log.info("[finaliza] ChamadoRestController - mudaStatusParaAndamento");
 	}
-	
+
 	@Override
 	public void mudaStatusParaEncerrado(String email, UUID idChamado) {
 		log.info("[inicia] ChamadoRestController - mudaStatusParaEncerrado");
 		chamadoService.mudaStatusParaEncerrado(idChamado);
 		log.info("[finaliza] ChamadoRestController - mudaStatusParaEncerrado");
 	}
+
 	@Override
 	public void deletaChamadoPorId(String email, UUID idChamado) {
 		log.info("[inicia] ChamadoRestController - deletaChamadoPorId");

@@ -16,12 +16,14 @@ public interface ChamadoRepository {
 
 	List<Chamado> buscaChamados();
 
-	void deletaChamado(Chamado chamado);
-
 	List<Chamado> buscaChamadosPorPrioridade(Prioridade prioridade);
 
 	List<Chamado> buscaChamadosPorStatus(StatusChamado status);
 
 	List<Chamado> buscaChamadosDoCliente(UUID idCliente);
+
+	List<Chamado> buscaChamadosDoTecnico(UUID idTecnico);
+	
+	void deletaChamado(Chamado chamado);
 
 }
