@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wakanda.chamado.application.api.request.BuscaPrioridadeRequest;
+import com.wakanda.chamado.application.api.request.BuscaStatusRequest;
 import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
@@ -55,5 +56,10 @@ public interface ChamadoAPI {
 	@ResponseStatus(value = HttpStatus.OK)
 	List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(
 			@RequestParam(name = "email", required = true) String email, @RequestBody @Valid BuscaPrioridadeRequest prioridadeRequest);
+
+	@GetMapping(value = "/restrito/status/busca")
+	@ResponseStatus(value = HttpStatus.OK)
+	List<ChamadoDetalhadoResponse> buscaChamadosPorStatus(
+			@RequestParam(name = "email", required = true) String email, @RequestBody @Valid BuscaStatusRequest statusRequest);
 
 }

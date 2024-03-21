@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.wakanda.chamado.application.repository.ChamadoRepository;
 import com.wakanda.chamado.domain.Chamado;
 import com.wakanda.chamado.domain.enuns.Prioridade;
+import com.wakanda.chamado.domain.enuns.StatusChamado;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -61,6 +62,16 @@ public class ChamadoInfraRepository implements ChamadoRepository {
 		query.addCriteria(Criteria.where("prioridade").is(prioridade));
 		List<Chamado> chamados = mongoTemplate.find(query, Chamado.class);
 		log.info("[finish] ChamadoInfraRepository - buscaChamadosPorPrioridade");
+		return chamados;
+	}
+
+	@Override
+	public List<Chamado> buscaChamadosPorStatus(StatusChamado status) {
+		log.info("[start] ChamadoInfraRepository - buscaChamadosPorStatus");
+		Query query = new Query();
+		query.addCriteria(Criteria.where("status").is(status));
+		List<Chamado> chamados = mongoTemplate.find(query, Chamado.class);
+		log.info("[finish] ChamadoInfraRepository - buscaChamadosPorStatus");
 		return chamados;
 	}
 

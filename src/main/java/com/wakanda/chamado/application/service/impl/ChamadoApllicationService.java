@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.wakanda.chamado.application.api.request.BuscaPrioridadeRequest;
+import com.wakanda.chamado.application.api.request.BuscaStatusRequest;
 import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
@@ -15,6 +16,7 @@ import com.wakanda.chamado.application.repository.ChamadoRepository;
 import com.wakanda.chamado.application.service.ChamadoService;
 import com.wakanda.chamado.domain.Chamado;
 import com.wakanda.chamado.domain.enuns.Prioridade;
+import com.wakanda.chamado.domain.enuns.StatusChamado;
 import com.wakanda.cliente.application.repository.ClienteRepository;
 import com.wakanda.cliente.domain.Cliente;
 import com.wakanda.handler.APIException;
@@ -115,6 +117,16 @@ public class ChamadoApllicationService implements ChamadoService {
 				() -> APIException.build(HttpStatus.BAD_REQUEST, "Nenhum Chamado encontrado para esta Prioridade."));
 		List<Chamado> Chamados = chamadoRepository.buscaChamadosPorPrioridade(prioridade);
 		log.info("[finaliza] TecnicoApplicationService - buscaChamadosPorPrioridade");
+		return ChamadoDetalhadoResponse.converte(Chamados);
+	}
+
+	@Override
+	public List<ChamadoDetalhadoResponse> buscaChamadosPorStatus(BuscaStatusRequest statusRequest) {
+		log.info("[inicia] TecnicoApplicationService - buscaChamadosPorStatus");
+		StatusChamado status = StatusChamado.validaStatus(statusRequest.status())
+				.orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "Nenhum Chamado encontrado para este Status."));
+		List<Chamado> Chamados = chamadoRepository.buscaChamadosPorStatus(status);
+		log.info("[finaliza] TecnicoApplicationService - buscaChamadosPorStatus");
 		return ChamadoDetalhadoResponse.converte(Chamados);
 	}
 

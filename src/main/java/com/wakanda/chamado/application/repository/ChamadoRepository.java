@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.wakanda.chamado.domain.Chamado;
 import com.wakanda.chamado.domain.enuns.Prioridade;
+import com.wakanda.chamado.domain.enuns.StatusChamado;
 
 public interface ChamadoRepository {
 
@@ -18,5 +19,7 @@ public interface ChamadoRepository {
 	void deletaChamado(Chamado chamado);
 
 	List<Chamado> buscaChamadosPorPrioridade(Prioridade prioridade);
+
+	List<Chamado> buscaChamadosPorStatus(StatusChamado status);
 
 }

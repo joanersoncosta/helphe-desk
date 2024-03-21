@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.wakanda.chamado.application.api.request.BuscaPrioridadeRequest;
+import com.wakanda.chamado.application.api.request.BuscaStatusRequest;
 import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
@@ -22,5 +23,7 @@ public interface ChamadoService {
 	void deletaChamadoPorId(String email, UUID idChamado);
 
 	List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(BuscaPrioridadeRequest prioridadeRequest);
+
+	List<ChamadoDetalhadoResponse> buscaChamadosPorStatus(BuscaStatusRequest statusRequest);
 
 }

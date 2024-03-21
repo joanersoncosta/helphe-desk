@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wakanda.chamado.application.api.ChamadoAPI;
 import com.wakanda.chamado.application.api.request.BuscaPrioridadeRequest;
+import com.wakanda.chamado.application.api.request.BuscaStatusRequest;
 import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
 import com.wakanda.chamado.application.api.response.ChamadoIdResponse;
 import com.wakanda.chamado.application.service.ChamadoService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -67,6 +69,15 @@ public class ChamadoRestController implements ChamadoAPI {
 		List<ChamadoDetalhadoResponse> chamados = chamadoService.buscaChamadosPorPrioridade(prioridadeRequest);
 		log.info("[finaliza] ChamadoRestController - buscaChamadosPorPrioridade");
 		return chamados;
+	}
+
+	@Override
+	public List<ChamadoDetalhadoResponse> buscaChamadosPorStatus(String email, BuscaStatusRequest statusRequest) {
+		log.info("[inicia] ChamadoRestController - buscaChamadosPorStatus");
+		List<ChamadoDetalhadoResponse> chamados = chamadoService.buscaChamadosPorStatus(statusRequest);
+		log.info("[finaliza] ChamadoRestController - buscaChamadosPorStatus");
+		return chamados;
+
 	}
 
 }
