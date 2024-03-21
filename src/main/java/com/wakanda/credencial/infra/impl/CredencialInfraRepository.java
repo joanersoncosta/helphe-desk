@@ -3,8 +3,8 @@ package com.wakanda.credencial.infra.impl;
 import org.springframework.stereotype.Repository;
 
 import com.wakanda.credencial.application.repository.CredencialRepository;
-import com.wakanda.credencial.application.service.CredencialMongoSpringRepository;
 import com.wakanda.credencial.domain.Credencial;
+import com.wakanda.credencial.infra.CredencialMongoSpringRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
