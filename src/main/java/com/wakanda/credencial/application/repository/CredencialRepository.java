@@ -6,4 +6,6 @@ public interface CredencialRepository {
 
 	void salva(Credencial novaCredencial);
 
+	Credencial buscaCredencialPorUsuario(String usuario);
+
 }

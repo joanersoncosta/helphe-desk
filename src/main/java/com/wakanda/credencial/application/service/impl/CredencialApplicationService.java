@@ -33,4 +33,12 @@ public class CredencialApplicationService implements CredencialService {
 		log.info("[finaliza] CrendencialService - criaNovaCredencial");
 	}
 
+	@Override
+	public Credencial buscaCredencialPorUsuario(String usuario) {
+		log.info("[inicia] CredencialSpringDataJpaService - buscaCredencialPorUsuario");
+		Credencial credencial = credencialRepository.buscaCredencialPorUsuario(usuario);
+		log.info("[finaliza] CredencialSpringDataJpaService - buscaCredencialPorUsuario");
+		return credencial;
+	}
+
 }
