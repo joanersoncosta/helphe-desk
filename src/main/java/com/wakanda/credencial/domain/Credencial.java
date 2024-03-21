@@ -56,7 +56,7 @@ public class Credencial implements UserDetails {
 		if (perfil.getNome().equals("ADMIN"))
 			return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_TECNICO"),
 					new SimpleGrantedAuthority("ROLE_CLIENTE"));
-		else if (perfil.getNome().equals("TENICO")) {
+		else if (perfil.getNome().equals("TECNICO")) {
 			return List.of(new SimpleGrantedAuthority("ROLE_TECNICO"), new SimpleGrantedAuthority("ROLE_CLIENTE"));
 		} else {
 			return List.of(new SimpleGrantedAuthority("ROLE_CLIENTE"));

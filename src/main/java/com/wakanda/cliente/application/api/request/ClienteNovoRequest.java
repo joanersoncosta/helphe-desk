@@ -10,16 +10,19 @@ import jakarta.validation.constraints.Size;
 public record ClienteNovoRequest(
 	@NotBlank(message = "Campo nome não pode está vazio.")
 	String nome,
-	@NotNull(message = "Campo cpf não pode ser nulo.")
+	@NotBlank(message = "Campo cpf não pode está vazio.")
 	@Indexed(unique = true)
 	@Size(min = 11, max = 11, message = "número do registro de contribuinte individual brasileiro (CPF) inválido")
 //	@CPF
 	String cpf,
 	@Email
-	@NotNull(message = "Campo email não pode ser nulo.")
+	@NotBlank(message = "Campo email não pode está vazio.")
 	@Indexed(unique = true)
 	String email,
-	@NotNull(message = "Digite novamente o sexo.")
+	@NotBlank(message = "Campo senha não pode está vazio.")
+	@Size(min = 6, max = 9)
+	String senha,
+	@NotNull(message = "Campo sexo não pode ser nulo.")
 	String sexo	
 	) {
 }
