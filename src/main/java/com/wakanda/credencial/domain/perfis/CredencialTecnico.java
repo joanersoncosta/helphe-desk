@@ -1,8 +1,9 @@
-package com.wakanda.credencial.domain;
+package com.wakanda.credencial.domain.perfis;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.wakanda.credencial.domain.Perfil;
 import com.wakanda.tecnico.application.api.request.TecnicoNovoRequest;
 
 import lombok.Getter;

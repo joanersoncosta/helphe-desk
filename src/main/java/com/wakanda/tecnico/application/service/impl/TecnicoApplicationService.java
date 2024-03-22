@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.wakanda.credencial.application.service.CredencialService;
-import com.wakanda.credencial.domain.CredencialTecnico;
+import com.wakanda.credencial.domain.perfis.CredencialTecnico;
 import com.wakanda.handler.APIException;
 import com.wakanda.tecnico.application.api.request.EditaTecnicoRequest;
 import com.wakanda.tecnico.application.api.request.TecnicoNovoRequest;

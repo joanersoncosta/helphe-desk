@@ -15,7 +15,7 @@ import com.wakanda.cliente.application.repository.ClienteRepository;
 import com.wakanda.cliente.application.service.ClienteService;
 import com.wakanda.cliente.domain.Cliente;
 import com.wakanda.credencial.application.service.CredencialService;
-import com.wakanda.credencial.domain.CredencialCliente;
+import com.wakanda.credencial.domain.perfis.CredencialCliente;
 import com.wakanda.handler.APIException;
 
 import lombok.RequiredArgsConstructor;

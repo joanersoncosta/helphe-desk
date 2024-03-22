@@ -5,8 +5,9 @@ import org.springframework.stereotype.Service;
 import com.wakanda.credencial.application.repository.CredencialRepository;
 import com.wakanda.credencial.application.service.CredencialService;
 import com.wakanda.credencial.domain.Credencial;
-import com.wakanda.credencial.domain.CredencialCliente;
-import com.wakanda.credencial.domain.CredencialTecnico;
+import com.wakanda.credencial.domain.perfis.CredencialAdmin;
+import com.wakanda.credencial.domain.perfis.CredencialCliente;
+import com.wakanda.credencial.domain.perfis.CredencialTecnico;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,14 @@ public class CredencialApplicationService implements CredencialService {
 	public void criaNovaCredencial(CredencialTecnico tecnico) {
 		log.info("[inicia] CrendencialService - criaNovaCredencial");
 		var novaCredencial = new Credencial(tecnico.getEmail(), tecnico.getSenha(), tecnico.getNome());
+		credencialRepository.salva(novaCredencial);
+		log.info("[finaliza] CrendencialService - criaNovaCredencial");
+	}
+	
+	@Override
+	public void criaNovaCredencial(CredencialAdmin admin) {
+		log.info("[inicia] CrendencialService - criaNovaCredencial");
+		var novaCredencial = new Credencial(admin.getEmail(), admin.getSenha(), admin.getNome());
 		credencialRepository.salva(novaCredencial);
 		log.info("[finaliza] CrendencialService - criaNovaCredencial");
 	}
