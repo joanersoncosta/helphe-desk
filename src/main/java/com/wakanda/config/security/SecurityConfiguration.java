@@ -2,6 +2,7 @@ package com.wakanda.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -50,10 +51,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.csrf().disable()
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.authorizeHttpRequests(auth -> auth
-				.antMatchers(
-						"/v1/produto/admin/**").hasRole("ADMIN")
-//				.antMatchers("/private/admin/**").permitAll()
 				.antMatchers("/public/**").permitAll()
+				.antMatchers("**/admin/**").hasRole("ADMIN")
+				.antMatchers("**/restrito/**").hasAnyAuthority("ADMIN", "TECNICO")
+				.antMatchers(HttpMethod.POST, "/v1/chamado").hasRole("CLIENTE")
 				.anyRequest()
 				.authenticated()
 		)		
