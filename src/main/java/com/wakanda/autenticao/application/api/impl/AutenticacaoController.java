@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wakanda.autenticao.application.api.AutenticacaoAPI;
-import com.wakanda.autenticao.application.api.TokenResponse;
 import com.wakanda.autenticao.application.api.request.AutenticacaoRequest;
+import com.wakanda.autenticao.application.api.response.TokenResponse;
 import com.wakanda.autenticao.application.service.AutenticacaoService;
 import com.wakanda.config.security.domain.ValidaConteudoAuthorizationHeader;
 import com.wakanda.handler.APIException;

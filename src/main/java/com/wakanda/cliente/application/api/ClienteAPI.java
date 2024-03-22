@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,18 +33,18 @@ public interface ClienteAPI {
 
 	@GetMapping(value = "/{idCliente}/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	ClienteDetalhadoResponse buscaClientePorId(@RequestParam(name = "email", required = true) String email, @PathVariable(value = "idCliente") UUID idCliente);
+	ClienteDetalhadoResponse buscaClientePorId(@RequestHeader("Authorization") String token, @PathVariable(value = "idCliente") UUID idCliente);
 
 	@GetMapping(value = "/restrito/busca-clientes")
 	@ResponseStatus(value = HttpStatus.OK)
-	List<ClienteListResponse> buscaTodosOsClientes(@RequestParam(name = "email", required = true) String email);
+	List<ClienteListResponse> buscaTodosOsClientes(@RequestHeader("Authorization") String token);
 
 	@PatchMapping(path = "/edita")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	void editaDadosDoCliente(@RequestParam(name = "email", required = true) String email, @RequestBody @Valid EditaClienteRequest clienteRequest);
+	void editaDadosDoCliente(@RequestHeader("Authorization") String token, @RequestBody @Valid EditaClienteRequest clienteRequest);
 
 	@DeleteMapping(path = "/deleta")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	void deletaCliente(@RequestParam(name = "email", required = true) String email);
+	void deletaCliente(@RequestHeader("Authorization") String token);
 
 }

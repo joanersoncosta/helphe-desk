@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.wakanda.autenticao.application.api.request.AutenticacaoRequest;
+import com.wakanda.autenticao.application.api.response.TokenResponse;
 
 @RequestMapping("/public/v1/autenticacao")
 public interface AutenticacaoAPI {

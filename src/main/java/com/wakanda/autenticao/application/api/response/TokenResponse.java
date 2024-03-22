@@ -1,4 +1,4 @@
-package com.wakanda.autenticao.application.api;
+package com.wakanda.autenticao.application.api.response;
 
 import com.wakanda.autenticao.domain.Token;
 
