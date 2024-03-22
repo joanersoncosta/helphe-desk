@@ -1,9 +1,10 @@
 package com.wakanda.credencial.domain;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import com.wakanda.cliente.application.api.request.ClienteNovoRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 @Getter

@@ -3,6 +3,8 @@ package com.wakanda.tecnico.application.api;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +21,6 @@ import com.wakanda.tecnico.application.api.request.EditaTecnicoRequest;
 import com.wakanda.tecnico.application.api.request.TecnicoNovoRequest;
 import com.wakanda.tecnico.application.api.response.TecnicoDetalhadoResponse;
 import com.wakanda.tecnico.application.api.response.TecnicoIdResponse;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/tecnico")

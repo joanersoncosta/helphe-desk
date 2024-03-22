@@ -3,6 +3,9 @@ package com.wakanda.chamado.domain;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,8 +18,6 @@ import com.wakanda.chamado.domain.enuns.StatusChamado;
 import com.wakanda.cliente.domain.Cliente;
 import com.wakanda.handler.APIException;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

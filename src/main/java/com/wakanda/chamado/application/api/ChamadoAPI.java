@@ -3,6 +3,8 @@ package com.wakanda.chamado.application.api;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +23,6 @@ import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
 import com.wakanda.chamado.application.api.response.ChamadoIdResponse;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/chamado")

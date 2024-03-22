@@ -5,5 +5,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import com.wakanda.autenticao.domain.Token;
 
 public interface AutenticacaoApplicationService {
-    Token autentica(UsernamePasswordAuthenticationToken userCredentials);
+	Token autentica(UsernamePasswordAuthenticationToken userCredentials);
+
+	Token reativaToken(String tokenExpirado);
+
 }

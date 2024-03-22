@@ -3,6 +3,8 @@ package com.wakanda.cliente.application.api;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +22,6 @@ import com.wakanda.cliente.application.api.request.EditaClienteRequest;
 import com.wakanda.cliente.application.api.response.ClienteDetalhadoResponse;
 import com.wakanda.cliente.application.api.response.ClienteIdResponse;
 import com.wakanda.cliente.application.api.response.ClienteListResponse;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/public/v1/cliente")

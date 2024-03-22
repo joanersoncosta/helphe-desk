@@ -2,10 +2,10 @@ package com.wakanda.chamado.application.api.request;
 
 import java.util.UUID;
 
-import org.springframework.data.mongodb.core.index.Indexed;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 public record ChamadoRequest(
 		@Indexed @NotNull(message = "Campo idTecnico não pode ser nulo.") UUID idTecnico,

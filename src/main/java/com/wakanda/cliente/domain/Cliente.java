@@ -3,6 +3,11 @@ package com.wakanda.cliente.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,10 +18,6 @@ import com.wakanda.cliente.application.api.request.EditaClienteRequest;
 import com.wakanda.cliente.domain.enuns.Sexo;
 import com.wakanda.handler.APIException;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
