@@ -52,8 +52,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.authorizeHttpRequests(auth -> auth
 				.antMatchers("/public/**").permitAll()
-				.antMatchers("**/admin/**").hasRole("ADMIN")
-				.antMatchers("**/restrito/**").hasAnyAuthority("ADMIN", "TECNICO")
+				.antMatchers("/**/admin/**").hasRole("ADMIN")
+				.antMatchers("/*/restrito/**").hasAnyAuthority("TECNICO")
 				.antMatchers(HttpMethod.POST, "/v1/chamado").hasRole("CLIENTE")
 				.anyRequest()
 				.authenticated()
