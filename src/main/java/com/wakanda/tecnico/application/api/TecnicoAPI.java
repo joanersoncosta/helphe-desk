@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,21 +34,21 @@ public interface TecnicoAPI {
 
 	@GetMapping(value = "/{idTecnico}/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	TecnicoDetalhadoResponse buscaTecnicoPorId(@RequestParam(name = "email", required = true) String email,
+	TecnicoDetalhadoResponse buscaTecnicoPorId(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idTecnico") UUID idTecnico);
 
 	@GetMapping(value = "/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	List<TecnicoDetalhadoResponse> buscaTecnicos(@RequestParam(name = "email", required = true) String email);
+	List<TecnicoDetalhadoResponse> buscaTecnicos(@RequestHeader("Authorization") String token);
 
 	@PatchMapping(path = "/restrito/{idTecnico}/edita")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	void editaDadosDoTecnico(@RequestParam(name = "email", required = true) String email,
+	void editaDadosDoTecnico(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idTecnico") UUID idTecnico, @RequestBody @Valid EditaTecnicoRequest tecnicoRequest);
 
 	@DeleteMapping(path = "/restrito/{idTecnico}/deleta")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	void deletaTecnico(@RequestParam(name = "email", required = true) String email,
+	void deletaTecnico(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idTecnico") UUID idTecnico);
 
 }
