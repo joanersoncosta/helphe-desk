@@ -33,6 +33,9 @@ public interface ChamadoService {
 	List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorStatus(String email, UUID idTecnico,
 			BuscaStatusRequest statusRequest);
 
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoClientePorStatus(String email, UUID idCliente,
+			BuscaStatusRequest statusRequest);
+
 	List<ChamadoListDetalhadoResponse> buscaChamadosDoCliente(String email, UUID idCliente);
 
 	List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnico(String email, UUID idTecnico);

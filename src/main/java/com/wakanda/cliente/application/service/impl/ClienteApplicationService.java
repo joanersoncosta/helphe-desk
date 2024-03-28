@@ -45,8 +45,8 @@ public class ClienteApplicationService implements ClienteService {
 		log.info("[emailCliente] {}", emailCliente);
 		log.info("[idCliente] {}", idCliente);
 		Cliente cliente = clienteRepository.detalhaClientePorId(idCliente)
-				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado."));
-		cliente.pertenceAoCliente(emailCliente.getIdCliente());
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado para este ID."));
+		cliente.pertenceAoCliente(emailCliente);
 		log.info("[finaliza] ClienteApplicationService - buscaClientePorId");
 		return ClienteDetalhadoResponse.converteClienteParaResponse(cliente);
 	}
@@ -69,8 +69,8 @@ public class ClienteApplicationService implements ClienteService {
 		log.info("[emailCliente] {}", emailCliente);
 		log.info("[idCliente] {}", idCliente);
 		Cliente cliente = clienteRepository.detalhaClientePorId(idCliente)
-				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado."));
-		cliente.pertenceAoCliente(emailCliente.getIdCliente());
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado para este ID."));
+		cliente.pertenceAoCliente(emailCliente);
 		cliente.editaDadosDoCliente(clienteRequest);
 		clienteRepository.salva(cliente);
 		log.info("[finaliza] ClienteApplicationService - buscaTodosOsClientes");
@@ -83,8 +83,8 @@ public class ClienteApplicationService implements ClienteService {
 		log.info("[emailCliente] {}", emailCliente);
 		log.info("[idCliente] {}", idCliente);
 		Cliente cliente = clienteRepository.detalhaClientePorId(idCliente)
-				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado."));
-		cliente.pertenceAoCliente(emailCliente.getIdCliente());
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado para este ID."));
+		cliente.pertenceAoCliente(emailCliente);
 		credencialService.deletaCredencial(emailCliente.getEmail());
 		clienteRepository.deletaCliente(cliente);
 		log.info("[finaliza] ClienteApplicationService - buscaTodosOsClientes");

@@ -70,6 +70,11 @@ public interface ChamadoAPI {
 	List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorStatus(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idTecnico") UUID idTecnico, @RequestBody @Valid BuscaStatusRequest statusRequest);
 
+	@GetMapping(value = "/public/cliente/{idCliente}/status/busca")
+	@ResponseStatus(value = HttpStatus.OK)
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoClientePorStatus(@RequestHeader("Authorization") String token,
+			@PathVariable(value = "idCliente") UUID idCliente, @RequestBody @Valid BuscaStatusRequest statusRequest);
+
 	@GetMapping(value = "/public/cliente/{idCliente}/busca")
 	@ResponseStatus(value = HttpStatus.OK)
 	List<ChamadoListDetalhadoResponse> buscaChamadosDoCliente(@RequestHeader("Authorization") String token,
