@@ -19,7 +19,14 @@ public interface ChamadoService {
 
 	List<ChamadoListDetalhadoResponse> buscaChamados(String email);
 
-	List<ChamadoListDetalhadoResponse> buscaChamadosPorPrioridade(String email, BuscaPrioridadeRequest prioridadeRequest);
+	List<ChamadoListDetalhadoResponse> buscaChamadosPorPrioridade(String email,
+			BuscaPrioridadeRequest prioridadeRequest);
+
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorPrioridade(String email, UUID idTecnico,
+			BuscaPrioridadeRequest prioridadeRequest);
+
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoClientePorPrioridade(String email, UUID idCliente,
+			BuscaPrioridadeRequest prioridadeRequest);
 
 	List<ChamadoListDetalhadoResponse> buscaChamadosPorStatus(String email, BuscaStatusRequest statusRequest);
 
@@ -38,8 +45,5 @@ public interface ChamadoService {
 	void mudaStatusParaEncerrado(String email, UUID idChamado);
 
 	void deletaChamadoPorId(String email, UUID idChamado);
-
-	List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorPrioridade(String email, UUID idTecnico,
-			BuscaPrioridadeRequest prioridadeRequest);
 
 }

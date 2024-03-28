@@ -18,6 +18,10 @@ public interface ChamadoRepository {
 
 	List<Chamado> buscaChamadosPorPrioridade(Prioridade prioridade);
 
+	List<Chamado> buscaChamadosDoTecnicoPorPrioridade(UUID idTecnico, Prioridade prioridade);
+
+	List<Chamado> buscaChamadosDoClientePorPrioridade(UUID idCliente, Prioridade prioridade);
+
 	List<Chamado> buscaChamadosPorStatus(StatusChamado status);
 
 	List<Chamado> buscaChamadosDoCliente(UUID idCliente);
@@ -25,7 +29,5 @@ public interface ChamadoRepository {
 	List<Chamado> buscaChamadosDoTecnico(UUID idTecnico);
 	
 	void deletaChamado(Chamado chamado);
-
-	List<Chamado> buscaChamadosDoTecnicoPorPrioridade(UUID idTecnico, Prioridade prioridade);
 
 }
