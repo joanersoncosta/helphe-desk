@@ -50,18 +50,25 @@ public interface ChamadoAPI {
 
 	@GetMapping(value = "/public/tecnico/{idTecnico}/prioridade/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorPrioridade(@RequestHeader("Authorization") String token, @PathVariable(value = "idTecnico") UUID idTecnico,
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorPrioridade(@RequestHeader("Authorization") String token,
+			@PathVariable(value = "idTecnico") UUID idTecnico,
 			@RequestBody @Valid BuscaPrioridadeRequest prioridadeRequest);
 
 	@GetMapping(value = "/public/cliente/{idCliente}/prioridade/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	List<ChamadoListDetalhadoResponse> buscaChamadosDoClientePorPrioridade(@RequestHeader("Authorization") String token, @PathVariable(value = "idCliente") UUID idCliente,
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoClientePorPrioridade(@RequestHeader("Authorization") String token,
+			@PathVariable(value = "idCliente") UUID idCliente,
 			@RequestBody @Valid BuscaPrioridadeRequest prioridadeRequest);
 
 	@GetMapping(value = "/admin/status/busca")
 	@ResponseStatus(value = HttpStatus.OK)
 	List<ChamadoListDetalhadoResponse> buscaChamadosPorStatus(@RequestHeader("Authorization") String token,
 			@RequestBody @Valid BuscaStatusRequest statusRequest);
+
+	@GetMapping(value = "/public/tecnico/{idTecnico}/status/busca")
+	@ResponseStatus(value = HttpStatus.OK)
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorStatus(@RequestHeader("Authorization") String token,
+			@PathVariable(value = "idTecnico") UUID idTecnico, @RequestBody @Valid BuscaStatusRequest statusRequest);
 
 	@GetMapping(value = "/public/cliente/{idCliente}/busca")
 	@ResponseStatus(value = HttpStatus.OK)

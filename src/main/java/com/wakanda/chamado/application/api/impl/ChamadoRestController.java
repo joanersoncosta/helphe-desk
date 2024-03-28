@@ -102,6 +102,18 @@ public class ChamadoRestController implements ChamadoAPI {
 	}
 
 	@Override
+	public List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorStatus(String token, UUID idTecnico,
+			BuscaStatusRequest statusRequest) {
+		log.info("[inicia] ChamadoRestController - buscaChamadosDoTecnicoPorStatus");
+		String email = getUsuarioByToken(token);
+		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService
+				.buscaChamadosDoTecnicoPorStatus(email, idTecnico, statusRequest);
+		log.info("[finaliza] ChamadoRestController - buscaChamadosDoTecnicoPorStatus");
+		return chamadoListDetalhadoResponse;
+
+	}
+
+	@Override
 	public List<ChamadoListDetalhadoResponse> buscaChamadosDoCliente(String token, UUID idCliente) {
 		log.info("[inicia] ChamadoRestController - buscaChamadosDoCliente");
 		String email = getUsuarioByToken(token);

@@ -124,11 +124,12 @@ public class ChamadoApllicationService implements ChamadoService {
 		Prioridade prioridade = Prioridade.validaPrioridade(prioridadeRequest.prioridade()).orElseThrow(
 				() -> APIException.build(HttpStatus.BAD_REQUEST, "Nenhum Chamado encontrado para esta Prioridade."));
 		tecnico.pertenceAoTecnico(emailTecnico);
-		List<Chamado> Chamados = chamadoRepository.buscaChamadosDoTecnicoPorPrioridade(tecnico.getIdTecnico(), prioridade);
+		List<Chamado> Chamados = chamadoRepository.buscaChamadosDoTecnicoPorPrioridade(tecnico.getIdTecnico(),
+				prioridade);
 		log.info("[finaliza] TecnicoApplicationService - buscaChamadosDoTecnicoPorPrioridade");
 		return ChamadoListDetalhadoResponse.converte(Chamados);
 	}
-	
+
 	@Override
 	public List<ChamadoListDetalhadoResponse> buscaChamadosDoClientePorPrioridade(String email, UUID idCliente,
 			BuscaPrioridadeRequest prioridadeRequest) {
@@ -141,7 +142,8 @@ public class ChamadoApllicationService implements ChamadoService {
 		Prioridade prioridade = Prioridade.validaPrioridade(prioridadeRequest.prioridade()).orElseThrow(
 				() -> APIException.build(HttpStatus.BAD_REQUEST, "Nenhum Chamado encontrado para esta Prioridade."));
 		cliente.pertenceAoCliente(emailCliente.getIdCliente());
-		List<Chamado> Chamados = chamadoRepository.buscaChamadosDoClientePorPrioridade(cliente.getIdCliente(), prioridade);
+		List<Chamado> Chamados = chamadoRepository.buscaChamadosDoClientePorPrioridade(cliente.getIdCliente(),
+				prioridade);
 		log.info("[finaliza] TecnicoApplicationService - buscaChamadosDoClientePorPrioridade");
 		return ChamadoListDetalhadoResponse.converte(Chamados);
 	}
@@ -157,6 +159,23 @@ public class ChamadoApllicationService implements ChamadoService {
 		List<Chamado> Chamados = chamadoRepository.buscaChamadosPorStatus(status);
 		log.info("[finaliza] TecnicoApplicationService - buscaChamadosPorStatus");
 		return ChamadoListDetalhadoResponse.converte(Chamados);
+	}
+
+	@Override
+	public List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorStatus(String email, UUID idTecnico,
+			BuscaStatusRequest statusRequest) {
+		log.info("[inicia] TecnicoApplicationService - buscaChamadosDoTecnicoPorStatus");
+		Tecnico emailTecnico = tecnicoRepository.buscaTecnicoPorEmail(email);
+		log.info("[emailTecnico] {}", emailTecnico);
+		log.info("[idTecnico] {}", idTecnico);
+		Tecnico tecnico = detalhaTecnicoPorId(idTecnico);
+		StatusChamado status = StatusChamado.validaStatus(statusRequest.status()).orElseThrow(
+				() -> APIException.build(HttpStatus.BAD_REQUEST, "Nenhum Chamado encontrado para este Status."));
+		tecnico.pertenceAoTecnico(emailTecnico);
+		List<Chamado> Chamados = chamadoRepository.buscaChamadosDoTecnicoPorStatus(tecnico.getIdTecnico(), status);
+		log.info("[finaliza] TecnicoApplicationService - buscaChamadosDoTecnicoPorStatus");
+		return ChamadoListDetalhadoResponse.converte(Chamados);
+
 	}
 
 	@Override

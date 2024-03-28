@@ -24,6 +24,8 @@ public interface ChamadoRepository {
 
 	List<Chamado> buscaChamadosPorStatus(StatusChamado status);
 
+	List<Chamado> buscaChamadosDoTecnicoPorStatus(UUID idTecnico, StatusChamado status);
+
 	List<Chamado> buscaChamadosDoCliente(UUID idCliente);
 
 	List<Chamado> buscaChamadosDoTecnico(UUID idTecnico);
