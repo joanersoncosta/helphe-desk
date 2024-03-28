@@ -57,6 +57,17 @@ public class ChamadoInfraRepository implements ChamadoRepository {
 		log.info("[finish] ChamadoInfraRepository - buscaChamadosPorPrioridade");
 		return chamados;
 	}
+	
+	@Override
+	public List<Chamado> buscaChamadosDoTecnicoPorPrioridade(UUID idTecnico, Prioridade prioridade) {
+		log.info("[start] ChamadoInfraRepository - buscaChamadosDoTecnicoPorPrioridade");
+		Query query = new Query();
+		query.addCriteria(Criteria.where("idTecnico").is(idTecnico));
+		query.addCriteria(Criteria.where("prioridade").is(prioridade));
+		List<Chamado> chamados = mongoTemplate.find(query, Chamado.class);
+		log.info("[finish] ChamadoInfraRepository - buscaChamadosDoTecnicoPorPrioridade");
+		return chamados;
+	}
 
 	@Override
 	public List<Chamado> buscaChamadosPorStatus(StatusChamado status) {

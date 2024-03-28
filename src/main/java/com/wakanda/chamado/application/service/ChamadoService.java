@@ -39,4 +39,7 @@ public interface ChamadoService {
 
 	void deletaChamadoPorId(String email, UUID idChamado);
 
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorPrioridade(String email, UUID idTecnico,
+			BuscaPrioridadeRequest prioridadeRequest);
+
 }

@@ -3,6 +3,8 @@ package com.wakanda.chamado.application.api.impl;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,8 +62,20 @@ public class ChamadoRestController implements ChamadoAPI {
 			BuscaPrioridadeRequest prioridadeRequest) {
 		log.info("[inicia] ChamadoRestController - buscaChamadosPorPrioridade");
 		String email = getUsuarioByToken(token);
-		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService.buscaChamadosPorPrioridade(email, prioridadeRequest);
+		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService
+				.buscaChamadosPorPrioridade(email, prioridadeRequest);
 		log.info("[finaliza] ChamadoRestController - buscaChamadosPorPrioridade");
+		return chamadoListDetalhadoResponse;
+	}
+
+	@Override
+	public List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorPrioridade(String token, UUID idTecnico,
+			BuscaPrioridadeRequest prioridadeRequest) {
+		log.info("[inicia] ChamadoRestController - buscaChamadosDoTecnicoPorPrioridade");
+		String email = getUsuarioByToken(token);
+		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService
+				.buscaChamadosDoTecnicoPorPrioridade(email, idTecnico, prioridadeRequest);
+		log.info("[finaliza] ChamadoRestController - buscaChamadosDoTecnicoPorPrioridade");
 		return chamadoListDetalhadoResponse;
 	}
 
@@ -69,7 +83,8 @@ public class ChamadoRestController implements ChamadoAPI {
 	public List<ChamadoListDetalhadoResponse> buscaChamadosPorStatus(String token, BuscaStatusRequest statusRequest) {
 		log.info("[inicia] ChamadoRestController - buscaChamadosPorStatus");
 		String email = getUsuarioByToken(token);
-		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService.buscaChamadosPorStatus(email, statusRequest);
+		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService.buscaChamadosPorStatus(email,
+				statusRequest);
 		log.info("[finaliza] ChamadoRestController - buscaChamadosPorStatus");
 		return chamadoListDetalhadoResponse;
 	}
@@ -78,7 +93,8 @@ public class ChamadoRestController implements ChamadoAPI {
 	public List<ChamadoListDetalhadoResponse> buscaChamadosDoCliente(String token, UUID idCliente) {
 		log.info("[inicia] ChamadoRestController - buscaChamadosDoCliente");
 		String email = getUsuarioByToken(token);
-		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService.buscaChamadosDoCliente(email, idCliente);
+		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService.buscaChamadosDoCliente(email,
+				idCliente);
 		log.info("[finaliza] ChamadoRestController - buscaChamadosDoCliente");
 		return chamadoListDetalhadoResponse;
 	}
@@ -87,7 +103,8 @@ public class ChamadoRestController implements ChamadoAPI {
 	public List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnico(String token, UUID idTecnico) {
 		log.info("[inicia] ChamadoRestController - buscaChamadosDoTecnico");
 		String email = getUsuarioByToken(token);
-		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService.buscaChamadosDoTecnico(email, idTecnico);
+		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService.buscaChamadosDoTecnico(email,
+				idTecnico);
 		log.info("[finaliza] ChamadoRestController - buscaChamadosDoTecnico");
 		return chamadoListDetalhadoResponse;
 	}

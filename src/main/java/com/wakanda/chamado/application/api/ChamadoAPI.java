@@ -48,6 +48,11 @@ public interface ChamadoAPI {
 	List<ChamadoListDetalhadoResponse> buscaChamadosPorPrioridade(@RequestHeader("Authorization") String token,
 			@RequestBody @Valid BuscaPrioridadeRequest prioridadeRequest);
 
+	@GetMapping(value = "/public/tecnico/{idTecnico}/prioridade/busca")
+	@ResponseStatus(value = HttpStatus.OK)
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorPrioridade(@RequestHeader("Authorization") String token, @PathVariable(value = "idTecnico") UUID idTecnico,
+			@RequestBody @Valid BuscaPrioridadeRequest prioridadeRequest);
+
 	@GetMapping(value = "/admin/status/busca")
 	@ResponseStatus(value = HttpStatus.OK)
 	List<ChamadoListDetalhadoResponse> buscaChamadosPorStatus(@RequestHeader("Authorization") String token,

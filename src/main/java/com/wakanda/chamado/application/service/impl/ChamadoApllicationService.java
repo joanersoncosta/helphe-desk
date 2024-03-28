@@ -111,6 +111,22 @@ public class ChamadoApllicationService implements ChamadoService {
 	}
 
 	@Override
+	public List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnicoPorPrioridade(String email, UUID idTecnico,
+			BuscaPrioridadeRequest prioridadeRequest) {
+		log.info("[inicia] TecnicoApplicationService - buscaChamadosDoTecnicoPorPrioridade");
+		Tecnico emailTecnico = tecnicoRepository.buscaTecnicoPorEmail(email);
+		log.info("[emailTecnico] {}", emailTecnico);
+		Tecnico tecnico = detalhaTecnicoPorId(idTecnico);
+		tecnico.pertenceAoTecnico(emailTecnico);
+		Prioridade prioridade = Prioridade.validaPrioridade(prioridadeRequest.prioridade()).orElseThrow(
+				() -> APIException.build(HttpStatus.BAD_REQUEST, "Nenhum Chamado encontrado para esta Prioridade."));
+		List<Chamado> Chamados = chamadoRepository.buscaChamadosDoTecnicoPorPrioridade(tecnico.getIdTecnico(), prioridade);
+		log.info("[finaliza] TecnicoApplicationService - buscaChamadosDoTecnicoPorPrioridade");
+		return ChamadoListDetalhadoResponse.converte(Chamados);
+
+	}
+
+	@Override
 	public List<ChamadoListDetalhadoResponse> buscaChamadosPorStatus(String email, BuscaStatusRequest statusRequest) {
 		log.info("[inicia] TecnicoApplicationService - buscaChamadosPorStatus");
 		Credencial credencialUsuario = buscaCredencialPorUsuario(email);

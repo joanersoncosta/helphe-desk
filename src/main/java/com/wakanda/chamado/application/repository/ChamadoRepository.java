@@ -26,4 +26,6 @@ public interface ChamadoRepository {
 	
 	void deletaChamado(Chamado chamado);
 
+	List<Chamado> buscaChamadosDoTecnicoPorPrioridade(UUID idTecnico, Prioridade prioridade);
+
 }
