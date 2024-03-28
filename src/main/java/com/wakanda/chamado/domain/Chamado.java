@@ -38,6 +38,12 @@ public class Chamado {
 	private UUID idTecnico;
 	@Indexed
 	private UUID idCliente;
+	@Indexed
+	@NotBlank
+	private String emailCliente;
+	@Indexed
+	@NotBlank
+	private String emailTecnico;
 	@NotBlank
 	private Prioridade prioridade;
 	private StatusChamado status;
@@ -48,10 +54,12 @@ public class Chamado {
 	private LocalDate dataAbertura;
 	private LocalDate dataFechamento;
 
-	public Chamado(UUID idCliente, ChamadoRequest chamadoRequest) {
+	public Chamado(UUID idCliente, ChamadoRequest chamadoRequest, String emailCliente, String emailTecnico) {
 		this.idChamado = UUID.randomUUID();
 		this.idTecnico = chamadoRequest.idTecnico();
 		this.idCliente = idCliente;
+		this.emailCliente = emailCliente;
+		this.emailTecnico = emailTecnico;
 		this.prioridade = retornaPrioridade(chamadoRequest.prioridade());
 		this.status = StatusChamado.ABERTO;
 		this.titulo = chamadoRequest.titulo();
@@ -62,12 +70,6 @@ public class Chamado {
 	private Prioridade retornaPrioridade(String prioridade) {
 		return Prioridade.validaPrioridade(prioridade).orElseThrow(
 				() -> APIException.build(HttpStatus.BAD_REQUEST, "Prioridade inválida, digite novamente."));
-	}
-
-	public void pertenceAoCliente(Cliente cliente) {
-		if (!idCliente.equals(cliente.getIdCliente())) {
-			throw APIException.build(HttpStatus.UNAUTHORIZED, "Cliente não autorizado.");
-		}
 	}
 
 	public void edita(EditaChamadoRequest chamadoRequest) {
@@ -90,6 +92,24 @@ public class Chamado {
 	public void mudaStatusParaEncerrado() {
 		this.status = StatusChamado.ENCERRADO;
 		this.dataFechamento = LocalDate.now();
+	}
+
+	public void pertenceAoCliente(Cliente cliente) {
+		if (!this.idCliente.equals(cliente.getIdCliente())) {
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não autorizado.");
+		}
+	}
+	
+	public void pertenceAoTecnico(String emailUsuario) {
+		if (!emailTecnico.equals(emailUsuario)) {
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não autorizado.");
+		}
+	}
+
+	public void pertenceAoUsuario(String emailUsuario) {
+		if (!(emailCliente.equals(emailUsuario) || emailTecnico.equals(emailUsuario))) {
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não autorizado.");
+		}
 	}
 
 }

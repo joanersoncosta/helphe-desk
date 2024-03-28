@@ -24,14 +24,14 @@ import com.wakanda.cliente.application.api.response.ClienteIdResponse;
 import com.wakanda.cliente.application.api.response.ClienteListResponse;
 
 @RestController
-@RequestMapping("/public/v1/cliente")
+@RequestMapping("/v1/cliente")
 public interface ClienteAPI {
 	
-	@PostMapping(path = "/cadastro")
+	@PostMapping(path = "/public/cadastro")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	ClienteIdResponse cadastraNovoCliente(@RequestBody @Valid ClienteNovoRequest clienteRequest);
 
-	@GetMapping(value = "/{idCliente}/busca")
+	@GetMapping(value = "/public/{idCliente}/busca")
 	@ResponseStatus(value = HttpStatus.OK)
 	ClienteDetalhadoResponse buscaClientePorId(@RequestHeader("Authorization") String token, @PathVariable(value = "idCliente") UUID idCliente);
 
@@ -39,12 +39,12 @@ public interface ClienteAPI {
 	@ResponseStatus(value = HttpStatus.OK)
 	List<ClienteListResponse> buscaTodosOsClientes(@RequestHeader("Authorization") String token);
 
-	@PatchMapping(path = "/edita")
+	@PatchMapping(path = "/public/{idCliente}/edita")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	void editaDadosDoCliente(@RequestHeader("Authorization") String token, @RequestBody @Valid EditaClienteRequest clienteRequest);
+	void editaDadosDoCliente(@RequestHeader("Authorization") String token, @PathVariable(value = "idCliente") UUID idCliente, @RequestBody @Valid EditaClienteRequest clienteRequest);
 
-	@DeleteMapping(path = "/deleta")
+	@DeleteMapping(path = "/public/{idCliente}/deleta")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	void deletaCliente(@RequestHeader("Authorization") String token);
+	void deletaCliente(@RequestHeader("Authorization") String token, @PathVariable(value = "idCliente") UUID idCliente);
 
 }

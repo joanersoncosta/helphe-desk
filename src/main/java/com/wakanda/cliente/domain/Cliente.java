@@ -63,9 +63,9 @@ public class Cliente {
 				.orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "Sexo inválido, digite novamente."));
 	}
 
-	public void pertenceAoCliente(Cliente emailCliente) {
-		if (!idCliente.equals(emailCliente.getIdCliente())) {
-			throw APIException.build(HttpStatus.UNAUTHORIZED, "Cliente não autorizado.");
+	public void pertenceAoCliente(UUID idCliente) {
+		if (!this.idCliente.equals(idCliente)) {
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não autorizado.");
 		}
 	}
 

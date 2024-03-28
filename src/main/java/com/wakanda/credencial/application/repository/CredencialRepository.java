@@ -8,4 +8,6 @@ public interface CredencialRepository {
 
 	Credencial buscaCredencialPorUsuario(String usuario);
 
+	void deletaCredencial(Credencial credencial);
+
 }

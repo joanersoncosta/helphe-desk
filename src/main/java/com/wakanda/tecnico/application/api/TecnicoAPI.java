@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,31 +21,32 @@ import com.wakanda.tecnico.application.api.request.EditaTecnicoRequest;
 import com.wakanda.tecnico.application.api.request.TecnicoNovoRequest;
 import com.wakanda.tecnico.application.api.response.TecnicoDetalhadoResponse;
 import com.wakanda.tecnico.application.api.response.TecnicoIdResponse;
+import com.wakanda.tecnico.application.api.response.TecnicoListDetalhadoResponse;
 
 @RestController
 @RequestMapping("/v1/tecnico")
 public interface TecnicoAPI {
 
-	@PostMapping(path = "/admin/cadastro")
+	@PostMapping(value = "/admin/cadastro")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	TecnicoIdResponse cadastraNovoTecnico(@RequestParam(name = "email", required = true) String email,
+	TecnicoIdResponse cadastraNovoTecnico(@RequestHeader("Authorization") String token,
 			@RequestBody @Valid TecnicoNovoRequest tecnicoRequest);
 
-	@GetMapping(value = "/{idTecnico}/busca")
+	@GetMapping(value = "/public/{idTecnico}/busca")
 	@ResponseStatus(value = HttpStatus.OK)
 	TecnicoDetalhadoResponse buscaTecnicoPorId(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idTecnico") UUID idTecnico);
 
-	@GetMapping(value = "/busca")
+	@GetMapping(value = "/public/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	List<TecnicoDetalhadoResponse> buscaTecnicos(@RequestHeader("Authorization") String token);
+	List<TecnicoListDetalhadoResponse> buscaTecnicos(@RequestHeader("Authorization") String token);
 
-	@PatchMapping(path = "/restrito/{idTecnico}/edita")
+	@PatchMapping(path = "/public/{idTecnico}/edita")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	void editaDadosDoTecnico(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idTecnico") UUID idTecnico, @RequestBody @Valid EditaTecnicoRequest tecnicoRequest);
 
-	@DeleteMapping(path = "/restrito/{idTecnico}/deleta")
+	@DeleteMapping(path = "/public/{idTecnico}/deleta")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	void deletaTecnico(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idTecnico") UUID idTecnico);

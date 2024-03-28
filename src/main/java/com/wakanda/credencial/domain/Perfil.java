@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Document(collection = "Perfil")
 public class Perfil implements GrantedAuthority {
 	@MongoId(targetType = FieldType.STRING)
+	private String idPerfil;
 	@Getter
 	private String nome;
 

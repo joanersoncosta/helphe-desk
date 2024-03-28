@@ -13,6 +13,7 @@ import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
 import com.wakanda.chamado.application.api.response.ChamadoIdResponse;
+import com.wakanda.chamado.application.api.response.ChamadoListDetalhadoResponse;
 import com.wakanda.chamado.application.service.ChamadoService;
 import com.wakanda.config.security.service.TokenService;
 import com.wakanda.handler.APIException;
@@ -31,64 +32,64 @@ public class ChamadoRestController implements ChamadoAPI {
 	public ChamadoIdResponse criaNovoChamado(String token, ChamadoRequest chamadoRequest) {
 		log.info("[inicia] ChamadoRestController - criaNovoChamado");
 		String email = getUsuarioByToken(token);
-		ChamadoIdResponse idChamado = chamadoService.criaNovoChamado(email, chamadoRequest);
+		ChamadoIdResponse chamadoIdResponse = chamadoService.criaNovoChamado(email, chamadoRequest);
 		log.info("[finaliza] ChamadoRestController - criaNovoChamado");
-		return idChamado;
+		return chamadoIdResponse;
 	}
 
 	@Override
 	public ChamadoDetalhadoResponse buscaChamadoPorId(String token, UUID idChamado) {
 		log.info("[inicia] ChamadoRestController - buscaChamadoPorId");
-		getUsuarioByToken(token);
-		ChamadoDetalhadoResponse chamado = chamadoService.buscaChamadoPorId(idChamado);
+		String email = getUsuarioByToken(token);
+		ChamadoDetalhadoResponse chamadoDetalhadoResponse = chamadoService.buscaChamadoPorId(email, idChamado);
 		log.info("[finaliza] ChamadoRestController - buscaChamadoPorId");
-		return chamado;
+		return chamadoDetalhadoResponse;
 	}
 
 	@Override
-	public List<ChamadoDetalhadoResponse> buscaChamados(String token) {
+	public List<ChamadoListDetalhadoResponse> buscaChamados(String token) {
 		log.info("[inicia] ChamadoRestController - buscaChamados");
-		getUsuarioByToken(token);
-		List<ChamadoDetalhadoResponse> chamados = chamadoService.buscaChamados();
+		String email = getUsuarioByToken(token);
+		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService.buscaChamados(email);
 		log.info("[finaliza] ChamadoRestController - buscaChamados");
-		return chamados;
+		return chamadoListDetalhadoResponse;
 	}
 
 	@Override
-	public List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(String token,
+	public List<ChamadoListDetalhadoResponse> buscaChamadosPorPrioridade(String token,
 			BuscaPrioridadeRequest prioridadeRequest) {
 		log.info("[inicia] ChamadoRestController - buscaChamadosPorPrioridade");
-		getUsuarioByToken(token);
-		List<ChamadoDetalhadoResponse> chamados = chamadoService.buscaChamadosPorPrioridade(prioridadeRequest);
+		String email = getUsuarioByToken(token);
+		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService.buscaChamadosPorPrioridade(email, prioridadeRequest);
 		log.info("[finaliza] ChamadoRestController - buscaChamadosPorPrioridade");
-		return chamados;
+		return chamadoListDetalhadoResponse;
 	}
 
 	@Override
-	public List<ChamadoDetalhadoResponse> buscaChamadosPorStatus(String token, BuscaStatusRequest statusRequest) {
+	public List<ChamadoListDetalhadoResponse> buscaChamadosPorStatus(String token, BuscaStatusRequest statusRequest) {
 		log.info("[inicia] ChamadoRestController - buscaChamadosPorStatus");
-		getUsuarioByToken(token);
-		List<ChamadoDetalhadoResponse> chamados = chamadoService.buscaChamadosPorStatus(statusRequest);
+		String email = getUsuarioByToken(token);
+		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService.buscaChamadosPorStatus(email, statusRequest);
 		log.info("[finaliza] ChamadoRestController - buscaChamadosPorStatus");
-		return chamados;
+		return chamadoListDetalhadoResponse;
 	}
 
 	@Override
-	public List<ChamadoDetalhadoResponse> buscaChamadosDoCliente(String token) {
+	public List<ChamadoListDetalhadoResponse> buscaChamadosDoCliente(String token, UUID idCliente) {
 		log.info("[inicia] ChamadoRestController - buscaChamadosDoCliente");
 		String email = getUsuarioByToken(token);
-		List<ChamadoDetalhadoResponse> chamados = chamadoService.buscaChamadosDoCliente(email);
+		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService.buscaChamadosDoCliente(email, idCliente);
 		log.info("[finaliza] ChamadoRestController - buscaChamadosDoCliente");
-		return chamados;
+		return chamadoListDetalhadoResponse;
 	}
 
 	@Override
-	public List<ChamadoDetalhadoResponse> buscaChamadosDoTecnico(String token) {
+	public List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnico(String token, UUID idTecnico) {
 		log.info("[inicia] ChamadoRestController - buscaChamadosDoTecnico");
 		String email = getUsuarioByToken(token);
-		List<ChamadoDetalhadoResponse> chamados = chamadoService.buscaChamadosDoTecnico(email);
+		List<ChamadoListDetalhadoResponse> chamadoListDetalhadoResponse = chamadoService.buscaChamadosDoTecnico(email, idTecnico);
 		log.info("[finaliza] ChamadoRestController - buscaChamadosDoTecnico");
-		return chamados;
+		return chamadoListDetalhadoResponse;
 	}
 
 	@Override
@@ -102,32 +103,32 @@ public class ChamadoRestController implements ChamadoAPI {
 	@Override
 	public void mudaPrioridadeParaMedia(String token, UUID idChamado) {
 		log.info("[inicia] ChamadoRestController - mudaPrioridadeParaMedia");
-		getUsuarioByToken(token);
-		chamadoService.mudaPrioridadeParaMedia(idChamado);
+		String email = getUsuarioByToken(token);
+		chamadoService.mudaPrioridadeParaMedia(email, idChamado);
 		log.info("[finaliza] ChamadoRestController - mudaPrioridadeParaMedia");
 	}
 
 	@Override
 	public void mudaPrioridadeParaAlta(String token, UUID idChamado) {
 		log.info("[inicia] ChamadoRestController - mudaPrioridadeParaAlta");
-		getUsuarioByToken(token);
-		chamadoService.mudaPrioridadeParaAlta(idChamado);
+		String email = getUsuarioByToken(token);
+		chamadoService.mudaPrioridadeParaAlta(email, idChamado);
 		log.info("[finaliza] ChamadoRestController - mudaPrioridadeParaAlta");
 	}
 
 	@Override
 	public void mudaStatusParaAndamento(String token, UUID idChamado) {
 		log.info("[inicia] ChamadoRestController - mudaStatusParaAndamento");
-		getUsuarioByToken(token);
-		chamadoService.mudaStatusParaAndamento(idChamado);
+		String email = getUsuarioByToken(token);
+		chamadoService.mudaStatusParaAndamento(email, idChamado);
 		log.info("[finaliza] ChamadoRestController - mudaStatusParaAndamento");
 	}
 
 	@Override
 	public void mudaStatusParaEncerrado(String token, UUID idChamado) {
 		log.info("[inicia] ChamadoRestController - mudaStatusParaEncerrado");
-		getUsuarioByToken(token);
-		chamadoService.mudaStatusParaEncerrado(idChamado);
+		String email = getUsuarioByToken(token);
+		chamadoService.mudaStatusParaEncerrado(email, idChamado);
 		log.info("[finaliza] ChamadoRestController - mudaStatusParaEncerrado");
 	}
 
@@ -140,11 +141,13 @@ public class ChamadoRestController implements ChamadoAPI {
 	}
 
 	private String getUsuarioByToken(String token) {
+		log.info("[inicia] ChamadoRestController - getUsuarioByToken");
 		log.debug("[token] {}", token);
-		String usuario = tokenService.getUsuarioByBearerToken(token)
+		String emailUsuario = tokenService.getUsuarioByBearerToken(token)
 				.orElseThrow(() -> APIException.build(HttpStatus.UNAUTHORIZED, token));
-		log.info("[usuario] {}", usuario);
-		return usuario;
+		log.info("[emailUsuario] {}", emailUsuario);
+		log.info("[finaliza] ChamadoRestController - getUsuarioByToken");
+		return emailUsuario;
 	}
 
 }

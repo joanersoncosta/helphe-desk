@@ -12,6 +12,7 @@ import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
 import com.wakanda.chamado.application.api.response.ChamadoIdResponse;
+import com.wakanda.chamado.application.api.response.ChamadoListDetalhadoResponse;
 import com.wakanda.chamado.application.repository.ChamadoRepository;
 import com.wakanda.chamado.application.service.ChamadoService;
 import com.wakanda.chamado.domain.Chamado;
@@ -19,6 +20,9 @@ import com.wakanda.chamado.domain.enuns.Prioridade;
 import com.wakanda.chamado.domain.enuns.StatusChamado;
 import com.wakanda.cliente.application.repository.ClienteRepository;
 import com.wakanda.cliente.domain.Cliente;
+import com.wakanda.credencial.application.service.CredencialService;
+import com.wakanda.credencial.domain.Credencial;
+import com.wakanda.credencial.domain.enuns.TipoPerfil;
 import com.wakanda.handler.APIException;
 import com.wakanda.tecnico.application.repository.TecnicoRepository;
 import com.wakanda.tecnico.domain.Tecnico;
@@ -33,6 +37,7 @@ public class ChamadoApllicationService implements ChamadoService {
 	private final ClienteRepository ClienteRepository;
 	private final ChamadoRepository chamadoRepository;
 	private final TecnicoRepository tecnicoRepository;
+	private final CredencialService credencialService;
 
 	@Override
 	public ChamadoIdResponse criaNovoChamado(String email, ChamadoRequest chamadoRequest) {
@@ -41,7 +46,8 @@ public class ChamadoApllicationService implements ChamadoService {
 		log.info("[cliente] {}", cliente);
 		Tecnico tecnico = detalhaTecnicoPorId(chamadoRequest.idTecnico());
 		log.info("[tecnico] {}", tecnico);
-		Chamado Chamado = chamadoRepository.salva(new Chamado(cliente.getIdCliente(), chamadoRequest));
+		Chamado Chamado = chamadoRepository
+				.salva(new Chamado(cliente.getIdCliente(), chamadoRequest, cliente.getEmail(), tecnico.getEmail()));
 		log.info("[finaliza] TecnicoApplicationService - cadastraNovoTecnico");
 		return ChamadoIdResponse.builder().idChamado(Chamado.getIdChamado()).build();
 	}
@@ -62,16 +68,18 @@ public class ChamadoApllicationService implements ChamadoService {
 	}
 
 	@Override
-	public ChamadoDetalhadoResponse buscaChamadoPorId(UUID idChamado) {
+	public ChamadoDetalhadoResponse buscaChamadoPorId(String email, UUID idChamado) {
 		log.info("[inicia] TecnicoApplicationService - buscaChamadoPorId");
 		log.info("[idChamado] {}", idChamado);
+		Credencial credenciaUsuario = buscaCredencialPorUsuario(email);
 		Chamado chamado = chamadoRepository.buscaChamadoPorId(idChamado)
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Chamado não encontrado para este ID."));
+		chamado.pertenceAoUsuario(credenciaUsuario.getUsuario());
 		log.info("[finaliza] TecnicoApplicationService - buscaChamadoPorId");
 		return ChamadoDetalhadoResponse.converte(chamado);
 	}
 
-	public Chamado detalhaChamado(UUID idChamado) {
+	private Chamado detalhaChamado(UUID idChamado) {
 		log.info("[inicia] TecnicoApplicationService - detalhaChamado");
 		Chamado chamado = chamadoRepository.buscaChamadoPorId(idChamado)
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Chamado não encontrado para este ID."));
@@ -80,96 +88,128 @@ public class ChamadoApllicationService implements ChamadoService {
 	}
 
 	@Override
-	public List<ChamadoDetalhadoResponse> buscaChamados() {
+	public List<ChamadoListDetalhadoResponse> buscaChamados(String email) {
 		log.info("[inicia] TecnicoApplicationService - buscaChamados");
+		Credencial credencialUsuario = buscaCredencialPorUsuario(email);
+		credencialUsuario.validaCredencialAdmin();
 		List<Chamado> Chamados = chamadoRepository.buscaChamados();
 		log.info("[finaliza] TecnicoApplicationService - buscaChamados");
-		return ChamadoDetalhadoResponse.converte(Chamados);
+		return ChamadoListDetalhadoResponse.converte(Chamados);
 	}
-	
+
 	@Override
-	public List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(BuscaPrioridadeRequest prioridadeRequest) {
+	public List<ChamadoListDetalhadoResponse> buscaChamadosPorPrioridade(String email,
+			BuscaPrioridadeRequest prioridadeRequest) {
 		log.info("[inicia] TecnicoApplicationService - buscaChamadosPorPrioridade");
+		Credencial credencialUsuario = buscaCredencialPorUsuario(email);
+		credencialUsuario.validaCredencialAdmin();
 		Prioridade prioridade = Prioridade.validaPrioridade(prioridadeRequest.prioridade()).orElseThrow(
 				() -> APIException.build(HttpStatus.BAD_REQUEST, "Nenhum Chamado encontrado para esta Prioridade."));
 		List<Chamado> Chamados = chamadoRepository.buscaChamadosPorPrioridade(prioridade);
 		log.info("[finaliza] TecnicoApplicationService - buscaChamadosPorPrioridade");
-		return ChamadoDetalhadoResponse.converte(Chamados);
+		return ChamadoListDetalhadoResponse.converte(Chamados);
 	}
 
 	@Override
-	public List<ChamadoDetalhadoResponse> buscaChamadosPorStatus(BuscaStatusRequest statusRequest) {
+	public List<ChamadoListDetalhadoResponse> buscaChamadosPorStatus(String email, BuscaStatusRequest statusRequest) {
 		log.info("[inicia] TecnicoApplicationService - buscaChamadosPorStatus");
-		StatusChamado status = StatusChamado.validaStatus(statusRequest.status())
-				.orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "Nenhum Chamado encontrado para este Status."));
+		Credencial credencialUsuario = buscaCredencialPorUsuario(email);
+		credencialUsuario.validaCredencialAdmin();
+		StatusChamado status = StatusChamado.validaStatus(statusRequest.status()).orElseThrow(
+				() -> APIException.build(HttpStatus.BAD_REQUEST, "Nenhum Chamado encontrado para este Status."));
 		List<Chamado> Chamados = chamadoRepository.buscaChamadosPorStatus(status);
 		log.info("[finaliza] TecnicoApplicationService - buscaChamadosPorStatus");
-		return ChamadoDetalhadoResponse.converte(Chamados);
+		return ChamadoListDetalhadoResponse.converte(Chamados);
 	}
-	
+
 	@Override
-	public List<ChamadoDetalhadoResponse> buscaChamadosDoCliente(String email) {
+	public List<ChamadoListDetalhadoResponse> buscaChamadosDoCliente(String email, UUID idCliente) {
 		log.info("[inicia] TecnicoApplicationService - buscaChamadosDoCliente");
-		Cliente cliente = detalhaClientePorEmail(email);
-		log.info("[cliente] {}", cliente);
+		Cliente emailCliente = detalhaClientePorEmail(email);
+		log.info("[emailCliente] {}", emailCliente);
+		Cliente cliente = ClienteRepository.detalhaClientePorId(idCliente)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado."));
+		cliente.pertenceAoCliente(emailCliente.getIdCliente());
 		List<Chamado> Chamados = chamadoRepository.buscaChamadosDoCliente(cliente.getIdCliente());
 		log.info("[finaliza] TecnicoApplicationService - buscaChamadosDoCliente");
-		return ChamadoDetalhadoResponse.converte(Chamados);
+		return ChamadoListDetalhadoResponse.converte(Chamados);
 	}
-	
+
 	@Override
-	public List<ChamadoDetalhadoResponse> buscaChamadosDoTecnico(String email) {
+	public List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnico(String email, UUID idTecnico) {
 		log.info("[inicia] TecnicoApplicationService - buscaChamadosDoTecnico");
-		Tecnico tecnico = tecnicoRepository.buscaTecnicoPorEmail(email);
-		log.info("[tecnico] {}", tecnico);
+		Tecnico emailTecnico = tecnicoRepository.buscaTecnicoPorEmail(email);
+		log.info("[emailTecnico] {}", emailTecnico);
+		Tecnico tecnico = detalhaTecnicoPorId(idTecnico);
+		tecnico.pertenceAoTecnico(emailTecnico);
 		List<Chamado> Chamados = chamadoRepository.buscaChamadosDoTecnico(tecnico.getIdTecnico());
 		log.info("[finaliza] TecnicoApplicationService - buscaChamadosDoTecnico");
-		return ChamadoDetalhadoResponse.converte(Chamados);
+		return ChamadoListDetalhadoResponse.converte(Chamados);
 	}
 
 	@Override
 	public void editaChamadoPorId(String email, UUID idChamado, EditaChamadoRequest chamadoRequest) {
 		log.info("[inicia] TecnicoApplicationService - editaChamadoPorId");
-		Cliente cliente = detalhaClientePorEmail(email);
-		log.info("[cliente] {}", cliente);
+		Cliente clienteEmail = detalhaClientePorEmail(email);
+		log.info("[cliente] {}", clienteEmail);
 		Chamado chamado = detalhaChamado(idChamado);
-		chamado.pertenceAoCliente(cliente);
+		chamado.pertenceAoCliente(clienteEmail);
 		chamado.edita(chamadoRequest);
 		chamadoRepository.salva(chamado);
 		log.info("[finaliza] TecnicoApplicationService - editaChamadoPorId");
 	}
-	
+
 	@Override
-	public void mudaPrioridadeParaMedia(UUID idChamado) {
+	public void mudaPrioridadeParaMedia(String email, UUID idChamado) {
 		log.info("[inicia] TecnicoApplicationService - mudaPrioridadeParaMedia");
+		Credencial credencialUsuario = buscaCredencialPorUsuario(email);
+		credencialUsuario.validaCredencialUsuario();
 		Chamado chamado = detalhaChamado(idChamado);
+		if (!credencialUsuario.getPerfil().equals(TipoPerfil.ADMIN)) {
+			chamado.pertenceAoTecnico(credencialUsuario.getUsuario());
+		}
 		chamado.mudaPrioridadeParaMedia();
 		chamadoRepository.salva(chamado);
 		log.info("[finaliza] TecnicoApplicationService - mudaPrioridadeParaMedia");
 	}
 
 	@Override
-	public void mudaPrioridadeParaAlta(UUID idChamado) {
+	public void mudaPrioridadeParaAlta(String email, UUID idChamado) {
 		log.info("[inicia] TecnicoApplicationService - mudaPrioridadeParaAlta");
+		Credencial credencialUsuario = buscaCredencialPorUsuario(email);
+		credencialUsuario.validaCredencialUsuario();
 		Chamado chamado = detalhaChamado(idChamado);
+		if (!credencialUsuario.getPerfil().equals(TipoPerfil.ADMIN)) {
+			chamado.pertenceAoTecnico(credencialUsuario.getUsuario());
+		}
 		chamado.mudaPrioridadeParaAlta();
 		chamadoRepository.salva(chamado);
 		log.info("[finaliza] TecnicoApplicationService - mudaPrioridadeParaAlta");
 	}
-	
+
 	@Override
-	public void mudaStatusParaAndamento(UUID idChamado) {
+	public void mudaStatusParaAndamento(String email, UUID idChamado) {
 		log.info("[inicia] TecnicoApplicationService - mudaStatusParaAndamento");
+		Credencial credencialUsuario = buscaCredencialPorUsuario(email);
+		credencialUsuario.validaCredencialUsuario();
 		Chamado chamado = detalhaChamado(idChamado);
+		if (!credencialUsuario.getPerfil().equals(TipoPerfil.ADMIN)) {
+			chamado.pertenceAoTecnico(credencialUsuario.getUsuario());
+		}
 		chamado.mudaStatusParaAndamento();
 		chamadoRepository.salva(chamado);
 		log.info("[finaliza] TecnicoApplicationService - mudaStatusParaAndamento");
 	}
-	
+
 	@Override
-	public void mudaStatusParaEncerrado(UUID idChamado) {
+	public void mudaStatusParaEncerrado(String email, UUID idChamado) {
 		log.info("[inicia] TecnicoApplicationService - mudaStatusParaEncerrado");
+		Credencial credencialUsuario = buscaCredencialPorUsuario(email);
+		credencialUsuario.validaCredencialUsuario();
 		Chamado chamado = detalhaChamado(idChamado);
+		if (!credencialUsuario.getPerfil().equals(TipoPerfil.ADMIN)) {
+			chamado.pertenceAoTecnico(credencialUsuario.getUsuario());
+		}
 		chamado.mudaStatusParaEncerrado();
 		chamadoRepository.salva(chamado);
 		log.info("[finaliza] TecnicoApplicationService - mudaStatusParaEncerrado");
@@ -184,6 +224,13 @@ public class ChamadoApllicationService implements ChamadoService {
 		chamado.pertenceAoCliente(cliente);
 		chamadoRepository.deletaChamado(chamado);
 		log.info("[finaliza] TecnicoApplicationService - deletaChamadoPorId");
+	}
+
+	private Credencial buscaCredencialPorUsuario(String email) {
+		log.info("[inicia] TecnicoRestController - buscaCredencialPorUsuario");
+		Credencial credencialUsuario = credencialService.buscaCredencialPorUsuario(email);
+		log.info("[finaliza] TecnicoRestController - buscaCredencialPorUsuario");
+		return credencialUsuario;
 	}
 
 }

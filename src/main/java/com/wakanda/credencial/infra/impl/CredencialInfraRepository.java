@@ -28,10 +28,17 @@ public class CredencialInfraRepository implements CredencialRepository {
 	public Credencial buscaCredencialPorUsuario(String usuario) {
 		log.info("[start] CredencialRepositoryMongoDB - buscaCredencialPorUsuario");
 		var credencial = credencialMongoRepository.findByUsuario(usuario)
-				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Não existe credencial para o úsuario informado!"));
-		log.info("[start] CredencialRepositoryMongoDB - buscaCredencialPorUsuario");
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Usuário não encontrado para esta credencial."));
+		log.info("[finish] CredencialRepositoryMongoDB - buscaCredencialPorUsuario");
 		return credencial;
 
+	}
+
+	@Override
+	public void deletaCredencial(Credencial credencial) {
+		log.info("[start] CredencialRepositoryMongoDB - deletaCredencial");
+		credencialMongoRepository.delete(credencial);
+		log.info("[finish] CredencialRepositoryMongoDB - deletaCredencial");
 	}
 
 }

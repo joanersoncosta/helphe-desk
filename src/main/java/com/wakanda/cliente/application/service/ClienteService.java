@@ -15,10 +15,10 @@ public interface ClienteService {
 
 	ClienteDetalhadoResponse buscaClientePorId(String email, UUID idCliente);
 
-	List<ClienteListResponse> buscaTodosOsClientes();
+	List<ClienteListResponse> buscaTodosOsClientes(String email);
 
-	void editaDadosDoCliente(String email, EditaClienteRequest clienteRequest);
+	void editaDadosDoCliente(String email, UUID idCliente, EditaClienteRequest clienteRequest);
 
-	void deletaCliente(String email);
+	void deletaCliente(String email, UUID idCliente);
 
 }

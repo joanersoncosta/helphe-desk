@@ -15,28 +15,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
-public class TecnicoDetalhadoResponse {
+public class TecnicoListDetalhadoResponse {
 
 	private UUID idTecnico;
 	private String nome;
 	private String email;
 	private Sexo sexo;
 
-	private TecnicoDetalhadoResponse(Tecnico tecnico) {
+	private TecnicoListDetalhadoResponse(Tecnico tecnico) {
 		this.idTecnico = tecnico.getIdTecnico();
 		this.nome = tecnico.getNome();
 		this.email = tecnico.getEmail();
 		this.sexo = tecnico.getSexo();
 	}
 
-	public static TecnicoDetalhadoResponse converte(Tecnico tecnico) {
-		return new TecnicoDetalhadoResponse(tecnico);
+	public static List<TecnicoListDetalhadoResponse> converte(List<Tecnico> tecnicos) {
+		return tecnicos.stream().map(TecnicoListDetalhadoResponse::new).collect(Collectors.toList());
 	}
-	
-	public static List<TecnicoDetalhadoResponse> converte(List<Tecnico> tecnicos) {
-		return tecnicos.stream()
-				.map(TecnicoDetalhadoResponse::new)
-				.collect(Collectors.toList());
-	}
-	
 }

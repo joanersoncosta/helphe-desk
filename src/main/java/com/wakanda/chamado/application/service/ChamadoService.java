@@ -9,32 +9,33 @@ import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
 import com.wakanda.chamado.application.api.response.ChamadoIdResponse;
+import com.wakanda.chamado.application.api.response.ChamadoListDetalhadoResponse;
 
 public interface ChamadoService {
 
 	ChamadoIdResponse criaNovoChamado(String email, ChamadoRequest chamadoRequest);
 
-	ChamadoDetalhadoResponse buscaChamadoPorId(UUID idChamado);
+	ChamadoDetalhadoResponse buscaChamadoPorId(String email, UUID idChamado);
 
-	List<ChamadoDetalhadoResponse> buscaChamados();
+	List<ChamadoListDetalhadoResponse> buscaChamados(String email);
 
-	List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(BuscaPrioridadeRequest prioridadeRequest);
+	List<ChamadoListDetalhadoResponse> buscaChamadosPorPrioridade(String email, BuscaPrioridadeRequest prioridadeRequest);
 
-	List<ChamadoDetalhadoResponse> buscaChamadosPorStatus(BuscaStatusRequest statusRequest);
+	List<ChamadoListDetalhadoResponse> buscaChamadosPorStatus(String email, BuscaStatusRequest statusRequest);
 
-	List<ChamadoDetalhadoResponse> buscaChamadosDoCliente(String email);
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoCliente(String email, UUID idCliente);
 
-	List<ChamadoDetalhadoResponse> buscaChamadosDoTecnico(String email);
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnico(String email, UUID idTecnico);
 
 	void editaChamadoPorId(String email, UUID idChamado, EditaChamadoRequest chamadoRequest);
 
-	void mudaPrioridadeParaMedia(UUID idChamado);
+	void mudaPrioridadeParaMedia(String email, UUID idChamado);
 
-	void mudaPrioridadeParaAlta(UUID idChamado);
+	void mudaPrioridadeParaAlta(String email, UUID idChamado);
 
-	void mudaStatusParaAndamento(UUID idChamado);
+	void mudaStatusParaAndamento(String email, UUID idChamado);
 
-	void mudaStatusParaEncerrado(UUID idChamado);
+	void mudaStatusParaEncerrado(String email, UUID idChamado);
 
 	void deletaChamadoPorId(String email, UUID idChamado);
 

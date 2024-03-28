@@ -46,15 +46,19 @@ public class Tecnico {
 	private String email;
 	@NotNull
 	private Sexo sexo;
+	@Email
+	@NotBlank
+	private String emailAssociadAoAdmin;
 	private LocalDateTime dataCadastro;
 	private LocalDateTime dataHoraDaUltimaAlteracao;
 
-	public Tecnico(TecnicoNovoRequest request) {
+	public Tecnico(TecnicoNovoRequest request, String userNameAdmin) {
 		this.idTecnico = UUID.randomUUID();
 		this.nome = request.nome();
 		this.cpf = request.cpf();
 		this.email = request.email();
 		this.sexo = retornaSexoValido(request.sexo());
+		this.emailAssociadAoAdmin = userNameAdmin;
 		this.dataCadastro = LocalDateTime.now();
 	}
 	
@@ -67,6 +71,12 @@ public class Tecnico {
 		this.nome = request.nome();
 		this.sexo = retornaSexoValido(request.sexo());
 		this.dataHoraDaUltimaAlteracao = LocalDateTime.now();
+	}
+
+	public void pertenceAoTecnico(Tecnico emailTecnico) {
+		if(!this.idTecnico.equals(emailTecnico.getIdTecnico())) {
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não autorizado.");
+		}
 	}
 
 }

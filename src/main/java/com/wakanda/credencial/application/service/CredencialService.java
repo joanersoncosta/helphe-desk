@@ -15,4 +15,6 @@ public interface CredencialService {
 
 	Credencial buscaCredencialPorUsuario(String usuario);
 
+	void deletaCredencial(String email);
+
 }

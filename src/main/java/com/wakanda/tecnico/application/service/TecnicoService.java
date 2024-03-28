@@ -7,17 +7,18 @@ import com.wakanda.tecnico.application.api.request.EditaTecnicoRequest;
 import com.wakanda.tecnico.application.api.request.TecnicoNovoRequest;
 import com.wakanda.tecnico.application.api.response.TecnicoDetalhadoResponse;
 import com.wakanda.tecnico.application.api.response.TecnicoIdResponse;
+import com.wakanda.tecnico.application.api.response.TecnicoListDetalhadoResponse;
 
 public interface TecnicoService {
 
-	TecnicoIdResponse cadastraNovoTecnico(TecnicoNovoRequest tecnicoRequest);
+	TecnicoIdResponse cadastraNovoTecnico(String email, TecnicoNovoRequest tecnicoRequest);
 
-	TecnicoDetalhadoResponse buscaTecnicoPorId(UUID idTecnico);
+	TecnicoDetalhadoResponse buscaTecnicoPorId(String email, UUID idTecnico);
 
-	List<TecnicoDetalhadoResponse> buscaTecnicos();
+	List<TecnicoListDetalhadoResponse> buscaTecnicos(String email);
 
-	void editaDadosDoTecnico(UUID idTecnico, EditaTecnicoRequest tecnicoRequest);
+	void editaDadosDoTecnico(String email,UUID idTecnico, EditaTecnicoRequest tecnicoRequest);
 
-	void deletaTecnico(UUID idTecnico);
+	void deletaTecnico(String email,UUID idTecnico);
 
 }

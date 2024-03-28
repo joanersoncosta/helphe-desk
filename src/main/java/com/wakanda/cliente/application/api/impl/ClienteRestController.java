@@ -29,9 +29,9 @@ public class ClienteRestController implements ClienteAPI {
 	@Override
 	public ClienteIdResponse cadastraNovoCliente(ClienteNovoRequest clienteRequest) {
 		log.info("[inicia] ClienteRestController - cadastraNovoCliente");
-		ClienteIdResponse idCliente = clienteService.cadastraNovoCliente(clienteRequest);
+		ClienteIdResponse clienteIdResponse = clienteService.cadastraNovoCliente(clienteRequest);
 		log.info("[finaliza] ClienteRestController - cadastraNovoCliente");
-		return idCliente;
+		return clienteIdResponse;
 	}
 
 	@Override
@@ -46,33 +46,35 @@ public class ClienteRestController implements ClienteAPI {
 	@Override
 	public List<ClienteListResponse> buscaTodosOsClientes(String token) {
 		log.info("[inicia] ClienteRestController - buscaTodosOsClientes");
-		getUsuarioByToken(token);
-		List<ClienteListResponse> clientes = clienteService.buscaTodosOsClientes();		
+		String email = getUsuarioByToken(token);
+		List<ClienteListResponse> clienteListResponse = clienteService.buscaTodosOsClientes(email);		
 		log.info("[finaliza] ClienteRestController - buscaTodosOsClientes");		
-		return clientes;
+		return clienteListResponse;
 	}
 
 	@Override
-	public void editaDadosDoCliente(String token, EditaClienteRequest clienteRequest) {
+	public void editaDadosDoCliente(String token, UUID idCliente, EditaClienteRequest clienteRequest) {
 		log.info("[inicia] ClienteRestController - editaDadosDoCliente");
 		String email = getUsuarioByToken(token);
-		clienteService.editaDadosDoCliente(email, clienteRequest);		
+		clienteService.editaDadosDoCliente(email, idCliente, clienteRequest);		
 		log.info("[finaliza] ClienteRestController - editaDadosDoCliente");		
 	}
 
 	@Override
-	public void deletaCliente(String token) {
+	public void deletaCliente(String token, UUID idCliente) {
 		log.info("[inicia] ClienteRestController - deletaCliente");
 		String email = getUsuarioByToken(token);
-		clienteService.deletaCliente(email);		
+		clienteService.deletaCliente(email, idCliente);		
 		log.info("[finaliza] ClienteRestController - deletaCliente");		
 	}
 	
 	private String getUsuarioByToken(String token) {
+		log.info("[inicia] ChamadoRestController - getUsuarioByToken");
 		log.debug("[token] {}", token);
-		String usuario = tokenService.getUsuarioByBearerToken(token).orElseThrow(() -> APIException.build(HttpStatus.UNAUTHORIZED, token));
-		log.info("[usuario] {}", usuario);
-		return usuario;
+		String emailUsuario = tokenService.getUsuarioByBearerToken(token)
+				.orElseThrow(() -> APIException.build(HttpStatus.UNAUTHORIZED, token));
+		log.info("[emailUsuario] {}", emailUsuario);
+		log.info("[finaliza] ChamadoRestController - getUsuarioByToken");
+		return emailUsuario;
 	}
-
 }

@@ -23,70 +23,72 @@ import com.wakanda.chamado.application.api.request.ChamadoRequest;
 import com.wakanda.chamado.application.api.request.EditaChamadoRequest;
 import com.wakanda.chamado.application.api.response.ChamadoDetalhadoResponse;
 import com.wakanda.chamado.application.api.response.ChamadoIdResponse;
+import com.wakanda.chamado.application.api.response.ChamadoListDetalhadoResponse;
 
 @RestController
 @RequestMapping("/v1/chamado")
 public interface ChamadoAPI {
 
-	@PostMapping
+	@PostMapping(value = "/public/cria")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	ChamadoIdResponse criaNovoChamado(@RequestHeader("Authorization") String token,
 			@RequestBody @Valid ChamadoRequest chamadoRequest);
 
-	@GetMapping(value = "/{idChamado}/busca")
+	@GetMapping(value = "/public/{idChamado}/busca")
 	@ResponseStatus(value = HttpStatus.OK)
 	ChamadoDetalhadoResponse buscaChamadoPorId(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idChamado") UUID idChamado);
 
-	@GetMapping(value = "/busca")
+	@GetMapping(value = "/admin/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	List<ChamadoDetalhadoResponse> buscaChamados(@RequestHeader("Authorization") String token);
+	List<ChamadoListDetalhadoResponse> buscaChamados(@RequestHeader("Authorization") String token);
 
-	@GetMapping(value = "/restrito/prioridade/busca")
+	@GetMapping(value = "/admin/prioridade/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	List<ChamadoDetalhadoResponse> buscaChamadosPorPrioridade(
-			@RequestHeader("Authorization") String token,
+	List<ChamadoListDetalhadoResponse> buscaChamadosPorPrioridade(@RequestHeader("Authorization") String token,
 			@RequestBody @Valid BuscaPrioridadeRequest prioridadeRequest);
 
-	@GetMapping(value = "/restrito/status/busca")
+	@GetMapping(value = "/admin/status/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	List<ChamadoDetalhadoResponse> buscaChamadosPorStatus(@RequestHeader("Authorization") String token,
+	List<ChamadoListDetalhadoResponse> buscaChamadosPorStatus(@RequestHeader("Authorization") String token,
 			@RequestBody @Valid BuscaStatusRequest statusRequest);
 
-	@GetMapping(value = "/cliente/busca")
+	@GetMapping(value = "/public/cliente/{idCliente}/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	List<ChamadoDetalhadoResponse> buscaChamadosDoCliente(@RequestHeader("Authorization") String token);
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoCliente(@RequestHeader("Authorization") String token,
+			@PathVariable(value = "idCliente") UUID idCliente);
 
-	@GetMapping(value = "/tecnico/busca")
+	@GetMapping(value = "/public/tecnico/{idTecnico}/busca")
 	@ResponseStatus(value = HttpStatus.OK)
-	List<ChamadoDetalhadoResponse> buscaChamadosDoTecnico(@RequestHeader("Authorization") String token);
+	List<ChamadoListDetalhadoResponse> buscaChamadosDoTecnico(@RequestHeader("Authorization") String token,
+			@PathVariable(value = "idTecnico") UUID idTecnico);
 
-	@PatchMapping(value = "/{idChamado}/edita")
+	@PatchMapping(value = "/public/{idChamado}/edita")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void editaChamadoPorId(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idChamado") UUID idChamado, @RequestBody @Valid EditaChamadoRequest chamadoRequest);
 
-	@PatchMapping(value = "/{idChamado}/restrito/prioridade/media/edita")
+	@PatchMapping(value = "restrito/{idChamado}/prioridade/media/edita")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void mudaPrioridadeParaMedia(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idChamado") UUID idChamado);
 
-	@PatchMapping(value = "/{idChamado}/restrito/prioridade/alta/edita")
+	@PatchMapping(value = "/restrito/{idChamado}/prioridade/alta/edita")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void mudaPrioridadeParaAlta(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idChamado") UUID idChamado);
 
-	@PatchMapping(value = "/{idChamado}/restrito/status/andamento/edita")
+	@PatchMapping(value = "/restrito/{idChamado}/status/andamento/edita")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void mudaStatusParaAndamento(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idChamado") UUID idChamado);
 
-	@PatchMapping(value = "/{idChamado}/restrito/status/encerrado/edita")
+	@PatchMapping(value = "/restrito/{idChamado}/status/encerrado/edita")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void mudaStatusParaEncerrado(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idChamado") UUID idChamado);
 
-	@DeleteMapping(value = "/{idChamado}/deleta")
+	@DeleteMapping(value = "/public/{idChamado}/deleta")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void deletaChamadoPorId(@RequestHeader("Authorization") String token,
 			@PathVariable(value = "idChamado") UUID idChamado);

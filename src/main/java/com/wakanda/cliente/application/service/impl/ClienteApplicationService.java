@@ -15,6 +15,7 @@ import com.wakanda.cliente.application.repository.ClienteRepository;
 import com.wakanda.cliente.application.service.ClienteService;
 import com.wakanda.cliente.domain.Cliente;
 import com.wakanda.credencial.application.service.CredencialService;
+import com.wakanda.credencial.domain.Credencial;
 import com.wakanda.credencial.domain.perfis.CredencialCliente;
 import com.wakanda.handler.APIException;
 
@@ -45,36 +46,55 @@ public class ClienteApplicationService implements ClienteService {
 		log.info("[idCliente] {}", idCliente);
 		Cliente cliente = clienteRepository.detalhaClientePorId(idCliente)
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado."));
-		cliente.pertenceAoCliente(emailCliente);
+		cliente.pertenceAoCliente(emailCliente.getIdCliente());
 		log.info("[finaliza] ClienteApplicationService - buscaClientePorId");
 		return ClienteDetalhadoResponse.converteClienteParaResponse(cliente);
 	}
 
 	@Override
-	public List<ClienteListResponse> buscaTodosOsClientes() {
+	public List<ClienteListResponse> buscaTodosOsClientes(String email) {
 		log.info("[inicia] ClienteApplicationService - buscaTodosOsClientes");
+		Credencial credenciaUsuario = buscaCredencialPorUsuario(email);
+		log.info("[credenciaUsuario] {}", credenciaUsuario);
+		credenciaUsuario.validaCredencialUsuario();
 		List<Cliente> clientes = clienteRepository.buscaClientes();		
 		log.info("[finaliza] ClienteApplicationService - buscaTodosOsClientes");
 		return ClienteListResponse.converte(clientes);
 	}
 
 	@Override
-	public void editaDadosDoCliente(String email, EditaClienteRequest clienteRequest) {
+	public void editaDadosDoCliente(String email, UUID idCliente, EditaClienteRequest clienteRequest) {
 		log.info("[inicia] ClienteApplicationService - buscaTodosOsClientes");
-		Cliente cliente = clienteRepository.detalhaClientePorEmail(email);
-		log.info("[cliente] {}", cliente);
-		cliente. editaDadosDoCliente(clienteRequest);
+		Cliente emailCliente = clienteRepository.detalhaClientePorEmail(email);
+		log.info("[emailCliente] {}", emailCliente);
+		log.info("[idCliente] {}", idCliente);
+		Cliente cliente = clienteRepository.detalhaClientePorId(idCliente)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado."));
+		cliente.pertenceAoCliente(emailCliente.getIdCliente());
+		cliente.editaDadosDoCliente(clienteRequest);
 		clienteRepository.salva(cliente);
 		log.info("[finaliza] ClienteApplicationService - buscaTodosOsClientes");
 	}
 
 	@Override
-	public void deletaCliente(String email) {
+	public void deletaCliente(String email, UUID idCliente) {
 		log.info("[inicia] ClienteApplicationService - buscaTodosOsClientes");
-		Cliente cliente = clienteRepository.detalhaClientePorEmail(email);
-		log.info("[cliente] {}", cliente);
+		Cliente emailCliente = clienteRepository.detalhaClientePorEmail(email);
+		log.info("[emailCliente] {}", emailCliente);
+		log.info("[idCliente] {}", idCliente);
+		Cliente cliente = clienteRepository.detalhaClientePorId(idCliente)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado."));
+		cliente.pertenceAoCliente(emailCliente.getIdCliente());
+		credencialService.deletaCredencial(emailCliente.getEmail());
 		clienteRepository.deletaCliente(cliente);
 		log.info("[finaliza] ClienteApplicationService - buscaTodosOsClientes");
+	}
+	
+	private Credencial buscaCredencialPorUsuario(String email) {
+		log.info("[inicia] ClienteApplicationService - buscaCredencialPorUsuario");
+		Credencial credencialUsuario = credencialService.buscaCredencialPorUsuario(email);
+		log.info("[finaliza] ClienteApplicationService - buscaCredencialPorUsuario");
+		return credencialUsuario;
 	}
 
 }

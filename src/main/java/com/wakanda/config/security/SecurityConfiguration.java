@@ -2,7 +2,6 @@ package com.wakanda.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -50,11 +49,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 		.csrf().disable()
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-		.authorizeHttpRequests(auth -> auth
-				.antMatchers("/public/**").permitAll()
-				.antMatchers("/**/admin/**").hasRole("ADMIN")
-				.antMatchers("/*/restrito/**").hasAnyAuthority("TECNICO")
-				.antMatchers(HttpMethod.POST, "/v1/chamado").hasRole("CLIENTE")
+		.authorizeHttpRequests(authority -> authority
+
+	            // Permissões para Admin
+//	            .antMatchers(HttpMethod.POST, "/v1/tecnico/admin/cadastro").hasRole("ROLE_ADMIN")
+	          
+	            // Permissões para Técnico
+//	            .antMatchers(HttpMethod.GET, "/v1/cliente/restrito/**").hasAnyRole("ROLE_ADMIN", "ROLE_TECNICO")
+//	            .antMatchers(HttpMethod.GET, "/v1/chamado/restrito/**").hasAnyRole("ROLE_ADMIN", "ROLE_TECNICO")
+//	            .antMatchers(HttpMethod.PATCH, "/v1/tecnico/restrito/**").hasAnyRole("ROLE_ADMIN", "ROLE_TECNICO")
+
+	            // Permissões Públicas
+	            .antMatchers("/public/**").permitAll()
+	            .antMatchers("/v1/tecnico/**").permitAll()
+	            .antMatchers("/v1/chamado/**").permitAll()
+	            .antMatchers("/v1/cliente/public/**").permitAll()
+
 				.anyRequest()
 				.authenticated()
 		)		

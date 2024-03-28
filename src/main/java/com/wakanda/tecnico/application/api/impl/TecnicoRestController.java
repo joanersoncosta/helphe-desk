@@ -13,6 +13,7 @@ import com.wakanda.tecnico.application.api.request.EditaTecnicoRequest;
 import com.wakanda.tecnico.application.api.request.TecnicoNovoRequest;
 import com.wakanda.tecnico.application.api.response.TecnicoDetalhadoResponse;
 import com.wakanda.tecnico.application.api.response.TecnicoIdResponse;
+import com.wakanda.tecnico.application.api.response.TecnicoListDetalhadoResponse;
 import com.wakanda.tecnico.application.service.TecnicoService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,50 +29,53 @@ public class TecnicoRestController implements TecnicoAPI {
 	@Override
 	public TecnicoIdResponse cadastraNovoTecnico(String token, TecnicoNovoRequest tecnicoRequest) {
 		log.info("[inicia] TecnicoRestController - cadastraNovoTecnico");
-		getUsuarioByToken(token);
-		TecnicoIdResponse idTecnico = tecnicoService.cadastraNovoTecnico(tecnicoRequest);
+		String email = getUsuarioByToken(token);
+		TecnicoIdResponse tecnicoIdResponse = tecnicoService.cadastraNovoTecnico(email, tecnicoRequest);
 		log.info("[finaliza] TecnicoRestController - cadastraNovoTecnico");
-		return idTecnico;
+		return tecnicoIdResponse;
 	}
 
 	@Override
 	public TecnicoDetalhadoResponse buscaTecnicoPorId(String token, UUID idTecnico) {
 		log.info("[inicia] TecnicoRestController - buscaTecnicoPorId");
-		getUsuarioByToken(token);
-		TecnicoDetalhadoResponse tecnico = tecnicoService.buscaTecnicoPorId(idTecnico);
+		String email = getUsuarioByToken(token);
+		TecnicoDetalhadoResponse tecnicoDetalhadoResponse = tecnicoService.buscaTecnicoPorId(email, idTecnico);
 		log.info("[finaliza] TecnicoRestController - buscaTecnicoPorId");
-		return tecnico;
+		return tecnicoDetalhadoResponse;
 	}
 
 	@Override
-	public List<TecnicoDetalhadoResponse> buscaTecnicos(String token) {
+	public List<TecnicoListDetalhadoResponse> buscaTecnicos(String token) {
 		log.info("[inicia] TecnicoRestController - buscaTecnicos");
-		getUsuarioByToken(token);
-		List<TecnicoDetalhadoResponse> tecnicos = tecnicoService.buscaTecnicos();
+		String email = getUsuarioByToken(token);
+		List<TecnicoListDetalhadoResponse> tecnicoListDetalhadoResponse = tecnicoService.buscaTecnicos(email);
 		log.info("[finaliza] TecnicoRestController - buscaTecnicos");
-		return tecnicos;
+		return tecnicoListDetalhadoResponse;
 	}
 
 	@Override
 	public void editaDadosDoTecnico(String token, UUID idTecnico, EditaTecnicoRequest tecnicoRequest) {
 		log.info("[inicia] TecnicoRestController - editaDadosDoTecnico");
-		getUsuarioByToken(token);
-		tecnicoService.editaDadosDoTecnico(idTecnico, tecnicoRequest);
+		String email = getUsuarioByToken(token);
+		tecnicoService.editaDadosDoTecnico(email, idTecnico, tecnicoRequest);
 		log.info("[finaliza] TecnicoRestController - editaDadosDoTecnico");
 	}
 
 	@Override
 	public void deletaTecnico(String token, UUID idTecnico) {
 		log.info("[inicia] TecnicoRestController - deletaTecnico");
-		getUsuarioByToken(token);
-		tecnicoService.deletaTecnico(idTecnico);
+		String email = getUsuarioByToken(token);
+		tecnicoService.deletaTecnico(email, idTecnico);
 		log.info("[finaliza] TecnicoRestController - deletaTecnico");
 	}
 
 	private String getUsuarioByToken(String token) {
+		log.info("[inicia] ChamadoRestController - getUsuarioByToken");
 		log.debug("[token] {}", token);
-		String usuario = tokenService.getUsuarioByBearerToken(token).orElseThrow(() -> APIException.build(HttpStatus.UNAUTHORIZED, token));
-		log.info("[usuario] {}", usuario);
-		return usuario;
+		String emailUsuario = tokenService.getUsuarioByBearerToken(token)
+				.orElseThrow(() -> APIException.build(HttpStatus.UNAUTHORIZED, token));
+		log.info("[emailUsuario] {}", emailUsuario);
+		log.info("[finaliza] ChamadoRestController - getUsuarioByToken");
+		return emailUsuario;
 	}
 }

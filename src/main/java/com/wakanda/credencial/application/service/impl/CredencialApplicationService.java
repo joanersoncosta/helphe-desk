@@ -21,7 +21,7 @@ public class CredencialApplicationService implements CredencialService {
 	@Override
 	public void criaNovaCredencial(CredencialCliente cliente) {
 		log.info("[inicia] CrendencialService - criaNovaCredencial");
-		var novaCredencial = new Credencial(cliente.getEmail(), cliente.getSenha(), cliente.getNome());
+		var novaCredencial = new Credencial(cliente.getEmail(), cliente.getSenha(), cliente.getPerfil());
 		credencialRepository.salva(novaCredencial);
 		log.info("[finaliza] CrendencialService - criaNovaCredencial");
 	}
@@ -29,7 +29,7 @@ public class CredencialApplicationService implements CredencialService {
 	@Override
 	public void criaNovaCredencial(CredencialTecnico tecnico) {
 		log.info("[inicia] CrendencialService - criaNovaCredencial");
-		var novaCredencial = new Credencial(tecnico.getEmail(), tecnico.getSenha(), tecnico.getNome());
+		var novaCredencial = new Credencial(tecnico.getEmail(), tecnico.getSenha(), tecnico.getPerfil());
 		credencialRepository.salva(novaCredencial);
 		log.info("[finaliza] CrendencialService - criaNovaCredencial");
 	}
@@ -37,7 +37,7 @@ public class CredencialApplicationService implements CredencialService {
 	@Override
 	public void criaNovaCredencial(CredencialAdmin admin) {
 		log.info("[inicia] CrendencialService - criaNovaCredencial");
-		var novaCredencial = new Credencial(admin.getEmail(), admin.getSenha(), admin.getNome());
+		var novaCredencial = new Credencial(admin.getEmail(), admin.getSenha(), admin.getPerfil());
 		credencialRepository.salva(novaCredencial);
 		log.info("[finaliza] CrendencialService - criaNovaCredencial");
 	}
@@ -48,6 +48,14 @@ public class CredencialApplicationService implements CredencialService {
 		Credencial credencial = credencialRepository.buscaCredencialPorUsuario(usuario);
 		log.info("[finaliza] CredencialSpringDataJpaService - buscaCredencialPorUsuario");
 		return credencial;
+	}
+
+	@Override
+	public void deletaCredencial(String email) {
+		log.info("[inicia] CredencialSpringDataJpaService - deletaCredencial");
+		Credencial credencial = credencialRepository.buscaCredencialPorUsuario(email);
+		credencialRepository.deletaCredencial(credencial);
+		log.info("[finaliza] CredencialSpringDataJpaService - deletaCredencial");
 	}
 
 }
